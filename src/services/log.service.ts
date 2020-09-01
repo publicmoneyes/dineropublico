@@ -1,4 +1,4 @@
-import { LoggerAdapter } from './interfaces/log.adapter';
+import { LoggerAdapter } from './adapters/log.adapter';
 import winston, { createLogger, Logger, format, transports } from 'winston';
 
 export class LoggerService implements LoggerAdapter {
@@ -17,21 +17,21 @@ export class LoggerService implements LoggerAdapter {
     this.loggerConfig = this.configLogger();
   }
 
-  info = (message: string): void => {
+  info(message: string): void {
     this.loggerConfig.info(message);
-  };
+  }
 
-  debug = (message: string): void => {
+  debug(message: string): void {
     this.loggerConfig.debug(message);
-  };
+  }
 
-  warn = (message: string): void => {
+  warn(message: string): void {
     this.loggerConfig.warn(message);
-  };
+  }
 
-  error = (message: string): void => {
+  error(message: string): void {
     this.loggerConfig.error(message);
-  };
+  }
 
   private configLogger = () => {
     return createLogger({
