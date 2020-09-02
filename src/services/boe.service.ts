@@ -1,4 +1,5 @@
 import { AjaxService } from './ajax.service';
+import { DateService } from './date.service';
 import { BOE_BASE_URL, BOE_API } from '../lib';
 import { Boe } from '../../data/models/boe.model';
 import { Observable, throwError, of } from 'rxjs';
@@ -6,7 +7,6 @@ import { BoeAdapter } from './adapters/boe.adapter';
 import { createError, HttpStatus } from '../models';
 import { ajax, AjaxRequest, AjaxResponse } from 'rxjs/ajax';
 import { pluck, map, concatMap, switchMap } from 'rxjs/operators';
-import { DateService } from './date.service';
 
 /**
  * This service is in charge of finding BOE through the BoeApi

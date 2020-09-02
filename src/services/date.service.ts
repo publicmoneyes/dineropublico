@@ -1,4 +1,4 @@
-import { DateAdapter } from './adapters/date.adapter';
+import { DateAdapter } from './adapters';
 import 'dayjs/locale/es';
 import * as dayjs from 'dayjs';
 
