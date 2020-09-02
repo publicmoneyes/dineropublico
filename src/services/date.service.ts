@@ -90,4 +90,17 @@ export class DateService implements DateAdapter {
   setDateToEnd(date: Date): Date {
     throw new Error('Method not implemented.');
   }
+
+  toBoeFormat(date: Date): string {
+    let year: number = date.getFullYear();
+    let month: number = date.getMonth() + 1;
+    let day: number = date.getDate();
+
+    let YYYY: string = year.toString();
+    // prefix with 0 if number is less than 10
+    let MM: string = month < 10 ? '0' + month.toString() : month.toString();
+    let DD: string = day < 10 ? '0' + day.toString() : day.toString();
+
+    return `${YYYY}${MM}${DD}`;
+  }
 }
