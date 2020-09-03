@@ -1,7 +1,7 @@
 export interface Boe {
-  idAnuncio: string[];
+  contractIdCollection: string[];
 }
 
 export const defaultBoe = (): Boe => ({
-  idAnuncio: [],
+  contractIdCollection: [],
 });

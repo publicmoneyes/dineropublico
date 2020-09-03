@@ -4,15 +4,15 @@ import { DateService } from './date.service';
 import { BOE_BASE_URL, BOE_API } from '../lib';
 import { boeMapper } from './mappers/boe.mapper';
 import { Xml2JsonService } from './xml2json.service';
-import { pluck, map, concatMap, tap } from 'rxjs/operators';
+import { pluck, map, concatMap } from 'rxjs/operators';
+import { Observable, throwError, forkJoin } from 'rxjs';
 import { FIRST_DATE, createDateCollection } from '../core';
 import { ajax, AjaxRequest, AjaxResponse } from 'rxjs/ajax';
-import { Observable, throwError, of, forkJoin } from 'rxjs';
 import { createError, HttpStatus, Boe, defaultBoe } from '../models';
 
 /**
  * This service is in charge of finding BOE through the BoeApi
- * by a given date, parse it and return a collection of contracts held in the BOE model.
+ * by a given date, parse it and return a collection of contracts held in a BOE model.
  */
 export class BoeService implements BoeAdapter {
   private readonly BoeQuery = 'id=BOE-S-';
@@ -80,12 +80,12 @@ export class BoeService implements BoeAdapter {
       }),
       map<BoeApiModel[], Boe>((boeApiModelCollection: BoeApiModel[]) => {
         // map api json to Boe model
-        let boeWithAllAdIds = defaultBoe();
+        let boe = defaultBoe();
         let mappedBoes: Boe[] = boeApiModelCollection.map(boeMapper);
         // merge al ID in one Boe
-        boeWithAllAdIds.idAnuncio = mappedBoes.reduce((acc: string[], current: Boe) => acc.concat(current.idAnuncio), []);
+        boe.contractIdCollection = mappedBoes.reduce((acc: string[], current: Boe) => acc.concat(current.contractIdCollection), []);
 
-        return boeWithAllAdIds;
+        return boe;
       })
     );
   }

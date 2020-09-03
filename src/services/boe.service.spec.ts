@@ -82,7 +82,7 @@ describe('Boe Service specs', () => {
       const date: Date = new Date(Date.UTC(2020, 7, 31));
       const urlCalled: string = `${BOE_BASE_URL}/${BOE_API}?id=BOE-S-${dateService.toBoeFormat(date)}`;
       const expectedResponse: Boe = {
-        idAnuncio: [
+        contractIdCollection: [
           'BOE-B-2020-27644',
           'BOE-B-2020-27645',
           'BOE-B-2020-27646',
@@ -127,7 +127,7 @@ describe('Boe Service specs', () => {
         let mockedUrlCall = (mockedAjax.mock.calls[0][0] as AjaxRequest).url;
 
         expect(mappedBoe).toStrictEqual(expectedResponse);
-        expect(mappedBoe.idAnuncio).toHaveLength(33);
+        expect(mappedBoe.contractIdCollection).toHaveLength(33);
         expect(mockedUrlCall).toEqual(urlCalled);
         expect(mockedAjax.mock.calls).toHaveLength(1);
 
@@ -179,7 +179,7 @@ describe('Boe Service specs', () => {
       let startDate: Date = new Date(Date.UTC(2020, 7, 31));
       let endDate: Date = new Date(Date.UTC(2020, 8, 1));
       const expectedResponse: Boe = {
-        idAnuncio: [
+        contractIdCollection: [
           'BOE-B-2020-27644',
           'BOE-B-2020-27645',
           'BOE-B-2020-27646',
@@ -242,7 +242,7 @@ describe('Boe Service specs', () => {
       // Act
       boeService.findBoeByDateRange(startDate, endDate).subscribe((r) => {
         expect(r).toEqual(expectedResponse);
-        expect(r.idAnuncio).toHaveLength(48);
+        expect(r.contractIdCollection).toHaveLength(48);
         done();
       });
     });

@@ -34,7 +34,7 @@ export const boeMapper = (input: BoeApiModel): Boe => {
   const adIdsCollection: string[] = formalizedContractCollection.map(({ $ }) => $.id);
 
   const boe: Boe = {
-    idAnuncio: [...adIdsCollection],
+    contractIdCollection: [...adIdsCollection],
   };
 
   return boe;

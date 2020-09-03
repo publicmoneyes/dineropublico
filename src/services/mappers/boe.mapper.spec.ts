@@ -42,7 +42,7 @@ describe('Boe mapper specs', () => {
     let fileContent: string = readFileSync(`${basePath}/20200831.xml`).toString('utf8');
     let parsedXml: BoeApiModel = await xmlService.parseXmlToJson(fileContent);
     const mockedBoe: Boe = {
-      idAnuncio: [
+      contractIdCollection: [
         'BOE-B-2020-27644',
         'BOE-B-2020-27645',
         'BOE-B-2020-27646',
