@@ -18,4 +18,5 @@ export interface DateAdapter {
   setDateToStart(date: Date): Date;
   setDateToEnd(date: Date): Date;
   toBoeFormat(date: Date): string;
+  isEqual(dateA: Date, dateB: Date): boolean;
 }

@@ -8,6 +8,8 @@ const configEnvironment = (): string => {
       configPath = `${__dirname}/../../.env.production`;
     case 'development':
       configPath = `${__dirname}/../../.env.development`;
+    default:
+      configPath = `${__dirname}/../../.env.development`;
   }
 
   return configPath;

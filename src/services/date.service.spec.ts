@@ -26,6 +26,15 @@ describe('Date service specs', () => {
 
     expect(dateService.toBoeFormat(date)).toEqual('20200515');
   });
+
+  it('addDays', () => {
+    let date = new Date(Date.UTC(2020, 4, 15));
+    let dateAdded = new Date(Date.UTC(2020, 4, 18));
+    let dateAddedNextMonth = new Date(Date.UTC(2020, 5, 1));
+
+    expect(dateService.addDays(date, 3)).toEqual(dateAdded);
+    expect(dateService.addDays(date, 17)).toEqual(dateAddedNextMonth);
+  });
   // getDayOfMonth(date: Date): number;
   // getMonth(date: Date): number;
   // getYear(date: Date): number;
@@ -35,7 +44,6 @@ describe('Date service specs', () => {
   // toString(date: Date): string;
   // addHours(date: Date, hours: number): Date;
   // substractHours(date: Date, hours: number): Date;
-  // addDays(date: Date, days: number): Date;
   // substractDays(date: Date, days: number): Date;
   // substractMonths(date: Date, months: number): Date;
   // setDateToStart(date: Date): Date;

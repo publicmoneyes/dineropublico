@@ -1,5 +1,5 @@
 import { Document } from 'mongoose';
 
-export interface Boe extends Document {
+export interface BoeDocument extends Document {
   contractIdCollection: string[];
 }

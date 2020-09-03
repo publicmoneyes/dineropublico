@@ -1,4 +1,4 @@
-export interface BoeAPiModel {
+export interface BoeApiModel {
   sumario: Sumario;
   error?: any;
 }

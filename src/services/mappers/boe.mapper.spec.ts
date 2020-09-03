@@ -1,6 +1,6 @@
 import { Boe, defaultBoe } from '../../models';
 import { boeMapper } from './boe.mapper';
-import { BoeAPiModel } from '../api-models';
+import { BoeApiModel } from '../api-models';
 import { Xml2JsonService } from '../xml2json.service';
 import { readFileSync } from 'fs';
 
@@ -29,7 +29,7 @@ describe('Boe mapper specs', () => {
   it('maps a default boe if the XML is invalid', async () => {
     // Arrange
     let fileContent: string = readFileSync(`${basePath}/invalid-boe.xml`).toString('utf8');
-    let parsedXml: BoeAPiModel = await xmlService.parseXmlToJson(fileContent);
+    let parsedXml: BoeApiModel = await xmlService.parseXmlToJson(fileContent);
     const _defaultBoe: Boe = defaultBoe();
     // Act
     const boe: Boe = boeMapper(parsedXml);
@@ -40,7 +40,7 @@ describe('Boe mapper specs', () => {
   it('maps a boe given a valid XML', async () => {
     // Arrange
     let fileContent: string = readFileSync(`${basePath}/20200831.xml`).toString('utf8');
-    let parsedXml: BoeAPiModel = await xmlService.parseXmlToJson(fileContent);
+    let parsedXml: BoeApiModel = await xmlService.parseXmlToJson(fileContent);
     const mockedBoe: Boe = {
       idAnuncio: [
         'BOE-B-2020-27644',

@@ -1,8 +1,8 @@
-import { BoeAPiModel, Seccion, Diario, DepartamentoItem, Departamento } from '../api-models';
+import { BoeApiModel, Seccion, Diario, DepartamentoItem, Departamento } from '../api-models';
 import { Boe, defaultBoe } from '../../models';
 import { CONTRACT_FORMALIZATION } from '../../core';
 
-export const boeMapper = (input: BoeAPiModel): Boe => {
+export const boeMapper = (input: BoeApiModel): Boe => {
   if (!input || input.error || !input.sumario) {
     return defaultBoe();
   }
