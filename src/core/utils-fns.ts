@@ -1,4 +1,5 @@
 import { DateService } from '../services';
+import { DT } from '../services/api-models';
 
 const createDateCollection = (dateStart: Date, dateEnd: Date): Date[] => {
   const dateService: DateService = DateService.getInstance();
@@ -14,6 +15,21 @@ const createDateCollection = (dateStart: Date, dateEnd: Date): Date[] => {
   return dateCollection;
 };
 
+const indexFinder = (indexList: DT, keyword: string): number => {
+  let keywordIndex = -1;
+
+  for (let index = 0; index < indexList.length; index++) {
+    const item = indexList[index];
+
+    if (item.indexOf(keyword) !== -1) {
+      keywordIndex = index;
+      break;
+    }
+  }
+  return keywordIndex;
+};
+
 export const utils = {
   createDateCollection,
+  indexFinder,
 };
