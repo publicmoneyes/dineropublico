@@ -1,6 +1,6 @@
 import { DateService } from '../services';
 
-export const createDateCollection = (dateStart: Date, dateEnd: Date): Date[] => {
+const createDateCollection = (dateStart: Date, dateEnd: Date): Date[] => {
   const dateService: DateService = DateService.getInstance();
   let dateCollection: Date[] = [];
 
@@ -12,4 +12,8 @@ export const createDateCollection = (dateStart: Date, dateEnd: Date): Date[] => 
   }
 
   return dateCollection;
+};
+
+export const utils = {
+  createDateCollection,
 };

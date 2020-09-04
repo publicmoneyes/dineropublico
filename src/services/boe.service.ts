@@ -6,7 +6,7 @@ import { boeMapper } from './mappers/boe.mapper';
 import { Xml2JsonService } from './xml2json.service';
 import { pluck, map, concatMap } from 'rxjs/operators';
 import { Observable, throwError, forkJoin } from 'rxjs';
-import { FIRST_DATE, createDateCollection } from '../core';
+import { FIRST_DATE, utils } from '../core';
 import { ajax, AjaxRequest, AjaxResponse } from 'rxjs/ajax';
 import { createError, HttpStatus, Boe, defaultBoe } from '../models';
 import { LoggerService } from './log.service';
@@ -67,7 +67,7 @@ export class BoeService implements BoeAdapter {
     }
 
     // create date collection from start to end
-    const dateCollection = createDateCollection(dateStart, dateEnd);
+    const dateCollection = utils.createDateCollection(dateStart, dateEnd);
     // reduce to observables collection
     const ajaxCallsCollection: Observable<AjaxResponse>[] = dateCollection.reduce((acc: Observable<AjaxResponse>[], current: Date) => {
       let query = this.BoeQuery + this.dateService.toBoeFormat(current);
