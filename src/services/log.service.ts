@@ -1,9 +1,11 @@
 import { LoggerAdapter } from './adapters/log.adapter';
 import winston, { createLogger, Logger, format, transports } from 'winston';
+import { ENVIRONMENTS } from '../core';
 
 export class LoggerService implements LoggerAdapter {
   private loggerConfig: Logger;
   private static instance: LoggerService;
+  private environment: string;
 
   static getInstance = (): LoggerService => {
     if (!LoggerService.instance) {
@@ -15,22 +17,31 @@ export class LoggerService implements LoggerAdapter {
 
   private constructor() {
     this.loggerConfig = this.configLogger();
+    this.environment = process.env.NODE_ENV ? process.env.NODE_ENV : ENVIRONMENTS.DEV;
   }
 
   info(message: string): void {
-    this.loggerConfig.info(message);
+    if (this.environment !== ENVIRONMENTS.TEST) {
+      this.loggerConfig.info(`${this.environment} --> ${message}`);
+    }
   }
 
   debug(message: string): void {
-    this.loggerConfig.debug(message);
+    if (this.environment !== ENVIRONMENTS.TEST) {
+      this.loggerConfig.debug(`${this.environment} --> ${message}`);
+    }
   }
 
   warn(message: string): void {
-    this.loggerConfig.warn(message);
+    if (this.environment !== ENVIRONMENTS.TEST) {
+      this.loggerConfig.warn(`${this.environment} --> ${message}`);
+    }
   }
 
   error(message: string): void {
-    this.loggerConfig.error(message);
+    if (this.environment !== ENVIRONMENTS.TEST) {
+      this.loggerConfig.error(`${this.environment} --> ${message}`);
+    }
   }
 
   private configLogger = () => {
@@ -44,10 +55,7 @@ export class LoggerService implements LoggerAdapter {
     return format.combine(
       format.simple(),
       format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-      format.printf(
-        (info) =>
-          `${info.timestamp} _${info.level.toUpperCase()}_: ${info.message}`
-      )
+      format.printf((info) => `${info.timestamp} _${info.level.toUpperCase()}_: ${info.message}`)
     );
   };
 
