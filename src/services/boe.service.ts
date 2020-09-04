@@ -9,6 +9,7 @@ import { Observable, throwError, forkJoin } from 'rxjs';
 import { FIRST_DATE, createDateCollection } from '../core';
 import { ajax, AjaxRequest, AjaxResponse } from 'rxjs/ajax';
 import { createError, HttpStatus, Boe, defaultBoe } from '../models';
+import { LoggerService } from './log.service';
 
 /**
  * This service is in charge of finding BOE through the BoeApi
@@ -21,11 +22,13 @@ export class BoeService implements BoeAdapter {
   private ajaxRequest: AjaxRequest | undefined;
   private dateService: DateService;
   private xml2jsonService: Xml2JsonService;
+  private logService: LoggerService;
 
   private constructor() {
     this.url = `${BOE_BASE_URL}/${BOE_API}`;
     this.dateService = DateService.getInstance();
     this.xml2jsonService = Xml2JsonService.getInstance();
+    this.logService = LoggerService.getInstance();
   }
 
   static getInstance(): BoeService {
@@ -37,7 +40,10 @@ export class BoeService implements BoeAdapter {
   }
 
   findBoeByDate(date: Date): Observable<Boe> {
+    this.logService.info(`BoeService.findBoeByDate: [${date}]`);
+
     if (this.isInvalidDate(date)) {
+      this.logService.error(`BoeService.findBoeByDate: Invalid date [${date}]`);
       return throwError(createError('Invalid date', HttpStatus.BAD_REQUEST));
     }
 
@@ -53,7 +59,10 @@ export class BoeService implements BoeAdapter {
   }
 
   findBoeByDateRange(dateStart: Date, dateEnd: Date): Observable<Boe> {
+    this.logService.info(`BoeService.findBoeByDateRange: [${dateStart}, ${dateEnd}]`);
+
     if (this.isInvalidDate(dateStart, dateEnd)) {
+      this.logService.error(`BoeService.findBoeByDateRange: [${dateStart}, ${dateEnd}]`);
       return throwError(createError('Invalid date', HttpStatus.BAD_REQUEST));
     }
 
