@@ -19,17 +19,17 @@ describe('Details mapper specs', () => {
     expect(details).toStrictEqual(defaultDetails());
   });
 
-  it('maps correctli multiple details', async () => {
+  it('maps correctly multiple details', async () => {
     // Arrange
     let fileContent = readFileSync(`${basePath}/202027664.xml`).toString('utf8');
     let expectedDetails = [
-      'Suministro Abierto de viveres para alimentacion de los residentes de la Residencia de Estudiantes de la Armada ``Teniente General Barroso´´.',
-      'Lote 1: Lote 1 Carne fresca, salazón, aves y embutidos.',
-      'Lote 2: Lote 2 Frutas, verduras y patatas.',
-      'Lote 3: Lote 3 Pescados y mariscos frescos.',
-      'Lote 4: Lote 4 Cerveza, vino y licores.',
-      'Lote 5: Lote 5 Pan fresco .',
-      'Lote 6: Lote 6 Derivados lácteos.',
+      '15800000 (Productos alimenticios diversos).',
+      'Lote 1: 15800000 (Productos alimenticios diversos).',
+      'Lote 2: 15800000 (Productos alimenticios diversos).',
+      'Lote 3: 15800000 (Productos alimenticios diversos).',
+      'Lote 4: 15800000 (Productos alimenticios diversos).',
+      'Lote 5: 15800000 (Productos alimenticios diversos).',
+      'Lote 6: 15800000 (Productos alimenticios diversos).',
     ];
     let parsedXml: ContractApiModel = await xmlService.parseXmlToJson(fileContent);
 
@@ -39,10 +39,10 @@ describe('Details mapper specs', () => {
     expect(details).toStrictEqual(expectedDetails);
   });
 
-  it('maps correcte single details', async () => {
+  it('maps correctly single details', async () => {
     // Arrange
     let fileContent = readFileSync(`${basePath}/202013138.xml`).toString('utf8');
-    let expectedDetails = ['Suministro de 1.000.000 de hisopos para toma de muestras.'];
+    let expectedDetails = ['33100000 (Equipamiento médico).'];
     let parsedXml: ContractApiModel = await xmlService.parseXmlToJson(fileContent);
 
     // Act

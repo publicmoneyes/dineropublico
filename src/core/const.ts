@@ -18,7 +18,7 @@ export const AWARDEES = 'Adjudicatarios';
 export const OFFERS_VALUE = 'Valor de las ofertas';
 export const AD_DATE = 'Fecha de envío del anuncio';
 export const DESCRIPTION = 'Descripción de la licitación';
-export const CODIGO_CPV = 'Códigos CPV';
+export const CPV_CODE = 'Códigos CPV';
 export const CONTRACT_FORMALIZATION = 'Anuncio de formalización de contratos';
 export const PYME = 'El adjudicatario es una PYME';
 
