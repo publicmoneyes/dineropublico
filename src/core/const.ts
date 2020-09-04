@@ -28,3 +28,10 @@ export const DOT_CHARS_SPACES: RegExp = /[[\.a-z\s]+/g;
 
 // First allowed date
 export const FIRST_DATE: Date = new Date(Date.UTC(2019, 11, 31));
+
+// environments
+export const ENVIRONMENTS = {
+  DEV: 'development',
+  PROD: 'production',
+  TEST: 'test',
+};
