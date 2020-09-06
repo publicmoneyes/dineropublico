@@ -29,7 +29,14 @@ const indexFinder = (indexList: DT, keyword: string): number => {
   return keywordIndex;
 };
 
+const normalizeString = (str: string, regexp: RegExp) => {
+  let substr = str.replace(regexp, '');
+
+  return substr.trim();
+};
+
 export const utils = {
   createDateCollection,
   indexFinder,
+  normalizeString,
 };

@@ -19,4 +19,12 @@ describe('Utils specs', () => {
     // Assert
     expect(keywordIndex).toEqual(2);
   });
+
+  it('Removes characters by a given regular expression', () => {
+    // Arrange
+    const str = 'ab1_.';
+    const regexp = new RegExp(/[a-z\._]/g);
+    // Assert
+    expect(utils.normalizeString(str, regexp)).toEqual('1');
+  });
 });
