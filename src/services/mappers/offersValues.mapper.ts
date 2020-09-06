@@ -16,8 +16,12 @@ export const offersValuesMapper = (contract: ContractApiModel): OffersValues[] =
   if (content) {
     const indexList = [...content[0].dt];
     const contentList = [...content[0].dd];
-
     const contentIndex = utils.indexFinder(indexList, OFFERS_VALUE);
+
+    if (contentIndex === -1) {
+      return [defaultOfferValue()];
+    }
+
     const offerValues: ContractContentApiModel = contentList[contentIndex] as ContractContentApiModel;
     const offersValuesContent: DLContent = { ...offerValues.dl[0] };
 
@@ -44,8 +48,8 @@ export const offersValuesMapper = (contract: ContractApiModel): OffersValues[] =
     for (let index = 0; index < offersValuesContent.dt.length; index++) {
       const key = offersValuesContent.dt[index];
       const dlContent = (offersValuesContent.dd[index] as ContractContentApiModel).dl[0];
-      const costs: string[] = recursiveExtractor(dlContent);
-      let descriptions: string[] = costs.map((c) => key);
+      const costs: string[] = recursiveDDExtractor(dlContent);
+      const descriptions: string[] = costs.map((c) => key);
 
       mappedOfferValues.push(...buildOffers(descriptions, costs));
     }
@@ -74,7 +78,7 @@ const buildOffers = (descriptions: string[], values: string[]): OffersValues[] =
   return offers;
 };
 
-const recursiveExtractor = (data: DLContent): string[] => {
+const recursiveDDExtractor = (data: DLContent): string[] => {
   const ddItem = data.dd[0];
   // base case: All dd items are strings
   if (typeof ddItem === 'string') {
@@ -85,7 +89,7 @@ const recursiveExtractor = (data: DLContent): string[] => {
   for (const iterator of data.dd) {
     const recursiveItem = iterator as ContractContentApiModel;
 
-    add.push(...recursiveExtractor(recursiveItem.dl[0]));
+    add.push(...recursiveDDExtractor(recursiveItem.dl[0]));
   }
 
   return add;
