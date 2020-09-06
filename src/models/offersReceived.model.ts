@@ -3,7 +3,7 @@ export interface OffersReceived {
   total: number;
 }
 
-export const defaultOffers = (): OffersReceived => ({
+export const defaultOffersReceived = (): OffersReceived => ({
   text: '',
   total: 0,
 });
