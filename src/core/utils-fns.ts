@@ -1,5 +1,5 @@
 import { DateService } from '../services';
-import { DT } from '../services/api-models';
+import { DT, DLContent, ContractContentApiModel } from '../services/api-models';
 
 const createDateCollection = (dateStart: Date, dateEnd: Date): Date[] => {
   const dateService: DateService = DateService.getInstance();
@@ -35,8 +35,25 @@ const normalizeString = (str: string, regexp: RegExp) => {
   return substr.trim();
 };
 
+export const doRecursion = <T>(contenido: DLContent, itemCreator: (item: DLContent) => T): T[] => {
+  let total: T[] = [];
+
+  if (contenido.dt && contenido.dt.length && typeof contenido.dd[0] === 'string') {
+    total.push(itemCreator(contenido));
+    return total;
+  }
+
+  for (const iterator of contenido.dd) {
+    const element: DLContent = (iterator as ContractContentApiModel).dl[0];
+    total = [...total, ...doRecursion(element, itemCreator)];
+  }
+
+  return total;
+};
+
 export const utils = {
   createDateCollection,
   indexFinder,
   normalizeString,
+  doRecursion,
 };
