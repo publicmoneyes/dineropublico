@@ -1,4 +1,4 @@
-import { DESCRIPTION, utils, CPV_CODE } from '../../core';
+import { utils, CPV_CODE } from '../../core';
 import { Details, defaultDetails } from '../../models';
 import { ContractApiModel, ContractContentApiModel } from '../api-models';
 

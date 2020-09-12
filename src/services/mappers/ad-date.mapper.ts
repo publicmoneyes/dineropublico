@@ -1,5 +1,5 @@
 import { ContractApiModel, ContractContentApiModel } from '../api-models';
-import { utils, CPV_CODE, AD_DATE } from '../../core';
+import { utils, AD_DATE } from '../../core';
 
 export const adDateMapper = (contract: ContractApiModel): Date | undefined => {
   if (!contract || !contract.documento || !contract.documento.texto) {

@@ -14,7 +14,7 @@ describe('Offer values specs', () => {
     let parsedXml: ContractApiModel = await xmlService.parseXmlToJson(fileContent);
 
     // Act
-    parsedXml.documento.metadatos = []; // Make invalid metadata
+    parsedXml.documento.texto = []; // Make invalid
     let offersValue: OffersValues[] = offersValuesMapper(parsedXml);
     // Assert
     expect(offersValue).toStrictEqual([defaultOfferValue()]);
@@ -535,7 +535,7 @@ describe('Offer values specs', () => {
     expect(metadata).toStrictEqual(mockedOffers);
   });
 
-  it.only('maps multiple offers values (nested sample 3)', async () => {
+  it('maps multiple offers values (nested sample 3)', async () => {
     // Arrange
     let fileContent: string = readFileSync(`${basePath}/202012599.xml`).toString('utf8');
     let parsedXml: ContractApiModel = await xmlService.parseXmlToJson(fileContent);
