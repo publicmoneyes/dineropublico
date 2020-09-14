@@ -51,7 +51,7 @@ const doRecursion = <T>(contenido: DLContent, itemCreator: (item: DLContent) => 
   return total;
 };
 
-const isDefined = (k: any): boolean => k !== -1;
+const isDistinctMinusOne = (value: any): boolean => value !== -1;
 
 const findItemIndex = (item: string, normalizedContentCollection: string[], key: string): number => {
   let index = normalizedContentCollection.indexOf(item);
@@ -92,7 +92,7 @@ export const utils = {
   indexFinder,
   normalizeString,
   doRecursion,
-  isDefined,
+  isDistinctMinusOne,
   findItemIndex,
   safeAccess,
   getItemIndex,

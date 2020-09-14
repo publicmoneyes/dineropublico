@@ -37,14 +37,26 @@ export const awardeesFactory = (content: DLContent): Awardees | undefined => {
   const pymesIndex = content.dd.filter(isString) as string[];
 
   // search for each constantValue in which position is its value inside the normalizedContent list
-  let nameIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.name)).filter(utils.isDefined);
-  let nifIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.nif)).filter(utils.isDefined);
-  let addressIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.address)).filter(utils.isDefined);
-  let locationIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.location)).filter(utils.isDefined);
-  let provinceIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.province)).filter(utils.isDefined);
-  let poscodeIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.poscode)).filter(utils.isDefined);
-  let countryIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.country)).filter(utils.isDefined);
-  let pymeIndex = pymesIndex.map((item, index) => (item === keys.pyme ? index : -1)).filter(utils.isDefined);
+  let nameIndex = constantValues
+    .map((item) => utils.findItemIndex(item, normalizedContentList, keys.name))
+    .filter(utils.isDistinctMinusOne);
+  let nifIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.nif)).filter(utils.isDistinctMinusOne);
+  let addressIndex = constantValues
+    .map((item) => utils.findItemIndex(item, normalizedContentList, keys.address))
+    .filter(utils.isDistinctMinusOne);
+  let locationIndex = constantValues
+    .map((item) => utils.findItemIndex(item, normalizedContentList, keys.location))
+    .filter(utils.isDistinctMinusOne);
+  let provinceIndex = constantValues
+    .map((item) => utils.findItemIndex(item, normalizedContentList, keys.province))
+    .filter(utils.isDistinctMinusOne);
+  let poscodeIndex = constantValues
+    .map((item) => utils.findItemIndex(item, normalizedContentList, keys.poscode))
+    .filter(utils.isDistinctMinusOne);
+  let countryIndex = constantValues
+    .map((item) => utils.findItemIndex(item, normalizedContentList, keys.country))
+    .filter(utils.isDistinctMinusOne);
+  let pymeIndex = pymesIndex.map((item, index) => (item === keys.pyme ? index : -1)).filter(utils.isDistinctMinusOne);
 
   let address = utils.addressBuilder(content.dd, [
     utils.getItemIndex(addressIndex),

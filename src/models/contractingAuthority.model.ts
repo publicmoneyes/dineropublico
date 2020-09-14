@@ -36,8 +36,12 @@ export const authorityTypeFactory = (content: DLContent): Partial<ContractingAut
   const normalizedContentList = content.dt.map((item) => item.replace(LIST_ENUM, '').trim());
   const constantValues = Object.values(keys);
 
-  let typeIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.type)).filter(utils.isDefined);
-  let activityIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.activity)).filter(utils.isDefined);
+  let typeIndex = constantValues
+    .map((item) => utils.findItemIndex(item, normalizedContentList, keys.type))
+    .filter(utils.isDistinctMinusOne);
+  let activityIndex = constantValues
+    .map((item) => utils.findItemIndex(item, normalizedContentList, keys.activity))
+    .filter(utils.isDistinctMinusOne);
 
   return {
     activity: utils.safeAccess(content.dd, utils.getItemIndex(activityIndex)),
@@ -66,15 +70,29 @@ export const contractingAuthorityFactory = (content: DLContent): Partial<Contrac
   const constantValues = Object.values(keys);
 
   // search for each constantValue in which position is its value inside the normalizedContent list
-  let nameIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.name)).filter(utils.isDefined);
-  let nifIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.nif)).filter(utils.isDefined);
-  let addressIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.address)).filter(utils.isDefined);
-  let locationIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.location)).filter(utils.isDefined);
-  let provinceIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.province)).filter(utils.isDefined);
-  let poscodeIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.poscode)).filter(utils.isDefined);
-  let countryIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.country)).filter(utils.isDefined);
-  let emailIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.email)).filter(utils.isDefined);
-  let webIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.web)).filter(utils.isDefined);
+  let nameIndex = constantValues
+    .map((item) => utils.findItemIndex(item, normalizedContentList, keys.name))
+    .filter(utils.isDistinctMinusOne);
+  let nifIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.nif)).filter(utils.isDistinctMinusOne);
+  let addressIndex = constantValues
+    .map((item) => utils.findItemIndex(item, normalizedContentList, keys.address))
+    .filter(utils.isDistinctMinusOne);
+  let locationIndex = constantValues
+    .map((item) => utils.findItemIndex(item, normalizedContentList, keys.location))
+    .filter(utils.isDistinctMinusOne);
+  let provinceIndex = constantValues
+    .map((item) => utils.findItemIndex(item, normalizedContentList, keys.province))
+    .filter(utils.isDistinctMinusOne);
+  let poscodeIndex = constantValues
+    .map((item) => utils.findItemIndex(item, normalizedContentList, keys.poscode))
+    .filter(utils.isDistinctMinusOne);
+  let countryIndex = constantValues
+    .map((item) => utils.findItemIndex(item, normalizedContentList, keys.country))
+    .filter(utils.isDistinctMinusOne);
+  let emailIndex = constantValues
+    .map((item) => utils.findItemIndex(item, normalizedContentList, keys.email))
+    .filter(utils.isDistinctMinusOne);
+  let webIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.web)).filter(utils.isDistinctMinusOne);
 
   let address = utils.addressBuilder(content.dd, [
     utils.getItemIndex(addressIndex),
