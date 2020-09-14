@@ -1,5 +1,5 @@
 import { readFileSync } from 'fs';
-import { Xml2JsonService } from '..';
+import { Xml2JsonService } from '../xml2json.service';
 import { Contract, defaultContract } from '../../models';
 import { ContractApiModel } from '../api-models';
 import { contractMapper } from './contract.mapper';
