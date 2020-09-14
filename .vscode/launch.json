@@ -14,15 +14,8 @@
       "name": "jest watch current file",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceRoot}/node_modules/jest/bin/jest.js", // pues la ruta a la libreria de jest
-      "args": [
-        "${fileBasenameNoExtension}",
-        "./jest.config.js",
-        "--verbose",
-        "-i",
-        "--no-cache",
-        "--watchAll"
-      ],
+      "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
+      "args": ["${fileBasenameNoExtension}", "./jest.config.js", "--verbose", "-i", "--no-cache", "--watchAll"],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
     }

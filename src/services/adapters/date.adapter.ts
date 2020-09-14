@@ -17,4 +17,6 @@ export interface DateAdapter {
   substractMonths(date: Date, months: number): Date;
   setDateToStart(date: Date): Date;
   setDateToEnd(date: Date): Date;
+  toBoeFormat(date: Date): string;
+  isEqual(dateA: Date, dateB: Date): boolean;
 }

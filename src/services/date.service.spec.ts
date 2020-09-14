@@ -6,13 +6,35 @@ describe('Date service specs', () => {
   // isBetween(start: Date, end: Date): boolean;
   // isBefore(first: Date, second: Date): boolean;
   it('isBefore', () => {
-    let date1 = new Date(2020, 0, 1, 15, 0);
-    let date2 = new Date(2020, 0, 1, 16, 0);
+    let after = new Date(Date.UTC(2020, 0, 1));
+    let before = new Date(Date.UTC(2020, 0, 2));
 
-    expect(dateService.isBefore(date1, date2)).toBeTruthy();
-    expect(dateService.isBefore(date2, date1)).toBeFalsy();
+    expect(dateService.isBefore(after, before)).toBeTruthy();
+    expect(dateService.isBefore(before, after)).toBeFalsy();
   });
-  // isAfter(first: Date, second: Date): boolean;
+
+  it('isAfter', () => {
+    let after = new Date(Date.UTC(2020, 0, 2));
+    let before = new Date(Date.UTC(2020, 0, 1));
+
+    expect(dateService.isAfter(after, before)).toBeTruthy();
+    expect(dateService.isAfter(before, after)).toBeFalsy();
+  });
+
+  it('toBoeFormat', () => {
+    let date = new Date(Date.UTC(2020, 4, 15));
+
+    expect(dateService.toBoeFormat(date)).toEqual('20200515');
+  });
+
+  it('addDays', () => {
+    let date = new Date(Date.UTC(2020, 4, 15));
+    let dateAdded = new Date(Date.UTC(2020, 4, 18));
+    let dateAddedNextMonth = new Date(Date.UTC(2020, 5, 1));
+
+    expect(dateService.addDays(date, 3)).toEqual(dateAdded);
+    expect(dateService.addDays(date, 17)).toEqual(dateAddedNextMonth);
+  });
   // getDayOfMonth(date: Date): number;
   // getMonth(date: Date): number;
   // getYear(date: Date): number;
@@ -22,7 +44,6 @@ describe('Date service specs', () => {
   // toString(date: Date): string;
   // addHours(date: Date, hours: number): Date;
   // substractHours(date: Date, hours: number): Date;
-  // addDays(date: Date, days: number): Date;
   // substractDays(date: Date, days: number): Date;
   // substractMonths(date: Date, months: number): Date;
   // setDateToStart(date: Date): Date;

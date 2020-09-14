@@ -1,4 +1,4 @@
-import { DateAdapter } from './adapters/date.adapter';
+import { DateAdapter } from './adapters';
 import 'dayjs/locale/es';
 import * as dayjs from 'dayjs';
 
@@ -34,10 +34,6 @@ export class DateService implements DateAdapter {
     return this.lib(first).isAfter(second);
   }
 
-  getDayOfMonth(date: Date): number {
-    throw new Error('Method not implemented.');
-  }
-
   getMonth(date: Date): number {
     return this.lib(date).get('month');
   }
@@ -46,12 +42,41 @@ export class DateService implements DateAdapter {
     return this.lib(date).get('year');
   }
 
-  getLastDateOfMonth(date: Date): number {
+  getHours(date: Date): number {
+    return this.lib(date).get('hour');
+  }
+
+  addHours(date: Date, hours: number): Date {
+    return this.lib(date).add(hours, 'hour').toDate();
+  }
+
+  addDays(date: Date, days: number): Date {
+    return this.lib(date).add(days, 'day').toDate();
+  }
+
+  toBoeFormat(date: Date): string {
+    let year: number = date.getFullYear();
+    let month: number = date.getMonth() + 1;
+    let day: number = date.getDate();
+
+    let YYYY: string = year.toString();
+    // prefix with 0 if number is less than 10
+    let MM: string = month < 10 ? '0' + month.toString() : month.toString();
+    let DD: string = day < 10 ? '0' + day.toString() : day.toString();
+
+    return `${YYYY}${MM}${DD}`;
+  }
+
+  isEqual(dateA: Date, dateB: Date): boolean {
+    return this.lib(dateA).isSame(dateB);
+  }
+
+  getDayOfMonth(date: Date): number {
     throw new Error('Method not implemented.');
   }
 
-  getHours(date: Date): number {
-    return this.lib(date).get('hour');
+  getLastDateOfMonth(date: Date): number {
+    throw new Error('Method not implemented.');
   }
 
   parseDate(date: number): Date {
@@ -62,16 +87,7 @@ export class DateService implements DateAdapter {
     throw new Error('Method not implemented.');
   }
 
-  addHours(date: Date, hours: number): Date {
-    this.lib(date).add(hours, 'hour');
-    return date;
-  }
-
   substractHours(date: Date, hours: number): Date {
-    throw new Error('Method not implemented.');
-  }
-
-  addDays(date: Date, days: number): Date {
     throw new Error('Method not implemented.');
   }
 
