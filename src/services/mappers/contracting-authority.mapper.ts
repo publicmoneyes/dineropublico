@@ -11,7 +11,7 @@ export const contractingAuthorityMapper = (contract: ContractApiModel): Contract
     documento: { texto },
   } = contract;
 
-  const content = texto[0]?.dl;
+  const content = utils.copyObject(texto[0]?.dl);
 
   if (content) {
     let contractingAuthority = defaultContractingAuthority();

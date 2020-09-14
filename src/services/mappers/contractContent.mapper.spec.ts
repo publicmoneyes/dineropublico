@@ -81,4 +81,46 @@ describe('Contract content specs', () => {
     const mappedContractContent = contractContentMapper(parsedXml);
     expect(mappedContractContent).toStrictEqual(expectedContractContent);
   });
+
+  it.only('maps valid input', async () => {
+    let fileContent = readFileSync(`${basePath}/202013138.xml`).toString('utf8');
+    let parsedXml: ContractApiModel = await xmlService.parseXmlToJson(fileContent);
+    const expectedContractContent = {
+      awardees: [
+        {
+          address: 'Dirección desconocida. Dirección desconocida.   España.',
+          name: 'MJ Steps.',
+          nif: '',
+          pyme: false,
+        },
+      ],
+      contractAuthority: {
+        activity: 'Sanidad.',
+        activityType: 'Administración General del Estado.',
+        address: 'c/ Alcalá, 56. Madrid. Madrid. 28014. España.',
+        email: 'bazuara@ingesa.sanidad.gos.es',
+        name: 'Dirección del Instituto Nacional de Gestión Sanitaria (INGESA).',
+        nif: 'Q2869002B.',
+        telephone: '',
+        web: 'http://www.ingesa.mscbs.es',
+      },
+      date: new Date(Date.UTC(2020, 3, 27)),
+      description: ['Suministro de 1.000.000 de hisopos para toma de muestras.'],
+      details: ['33100000 (Equipamiento médico).'],
+      offerValues: [
+        {
+          text: 'Valor de la oferta seleccionada',
+          value: 4300000,
+        },
+      ],
+      offersReceived: [
+        {
+          text: 'Número de ofertas recibidas',
+          total: 1,
+        },
+      ],
+    };
+    const mappedContractContent = contractContentMapper(parsedXml);
+    expect(mappedContractContent).toStrictEqual(expectedContractContent);
+  });
 });

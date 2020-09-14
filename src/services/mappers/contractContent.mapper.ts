@@ -1,3 +1,4 @@
+import { utils } from '../../core';
 import { ContractContent, defaultContractContent } from '../../models';
 import { ContractApiModel } from '../api-models';
 import { adDateMapper } from './ad-date.mapper';
@@ -18,7 +19,7 @@ export const contractContentMapper = (contract: ContractApiModel): ContractConte
     documento: { texto },
   } = contract;
 
-  const content = texto[0]?.dl;
+  const content = JSON.stringify(utils.copyObject(texto[0]?.dl));
 
   if (content) {
     contractContent.awardees = awardeesMapper(contract);

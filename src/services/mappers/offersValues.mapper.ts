@@ -11,7 +11,7 @@ export const offersValuesMapper = (contract: ContractApiModel): OffersValues[] =
     documento: { texto },
   } = contract;
 
-  const content = texto[0]?.dl;
+  const content = utils.copyObject(texto[0]?.dl);
 
   if (content) {
     const indexList = [...content[0].dt];

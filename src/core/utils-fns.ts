@@ -87,6 +87,14 @@ const addressBuilder = (content: DD, indexCollection: number[]) => {
   return `${street} ${loc} ${prov} ${poscode} ${country}`.trim();
 };
 
+const copyObject = (object: any): any => {
+  if (object) {
+    return JSON.parse(JSON.stringify(object));
+  }
+
+  return undefined;
+};
+
 export const utils = {
   createDateCollection,
   indexFinder,
@@ -97,4 +105,5 @@ export const utils = {
   safeAccess,
   getItemIndex,
   addressBuilder,
+  copyObject,
 };
