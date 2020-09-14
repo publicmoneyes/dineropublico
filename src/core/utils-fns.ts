@@ -1,5 +1,5 @@
 import { DateService } from '../services';
-import { DT, DLContent, ContractContentApiModel } from '../services/api-models';
+import { DT, DLContent, ContractContentApiModel, DD } from '../services/api-models';
 
 const createDateCollection = (dateStart: Date, dateEnd: Date): Date[] => {
   const dateService: DateService = DateService.getInstance();
@@ -35,7 +35,7 @@ const normalizeString = (str: string, regexp: RegExp) => {
   return substr.trim();
 };
 
-export const doRecursion = <T>(contenido: DLContent, itemCreator: (item: DLContent) => T): T[] => {
+const doRecursion = <T>(contenido: DLContent, itemCreator: (item: DLContent) => T): T[] => {
   let total: T[] = [];
 
   if (contenido.dt && contenido.dt.length && typeof contenido.dd[0] === 'string') {
@@ -51,9 +51,50 @@ export const doRecursion = <T>(contenido: DLContent, itemCreator: (item: DLConte
   return total;
 };
 
+const isDefined = (k: any): boolean => k !== -1;
+
+const findItemIndex = (item: string, normalizedContentCollection: string[], key: string): number => {
+  let index = normalizedContentCollection.indexOf(item);
+  if (index > -1 && item === key) {
+    return index;
+  }
+  return -1;
+};
+
+const safeAccess = (collection: DD, index: number): string => {
+  if (!collection || index < 0) {
+    return '';
+  }
+
+  return (collection[index] as string) ?? '';
+};
+
+const getItemIndex = (indexCollection: number[]) => (indexCollection.length ? indexCollection.shift()! : -1);
+
+const addressBuilder = (content: DD, indexCollection: number[]) => {
+  if (!indexCollection || !indexCollection.length) {
+    return '';
+  }
+
+  let [addrIndex, locIndex, provIndex, pcIndex, countryIndex] = indexCollection;
+
+  let street = utils.safeAccess(content, addrIndex);
+  let loc = utils.safeAccess(content, locIndex);
+  let prov = utils.safeAccess(content, provIndex);
+  let poscode = utils.safeAccess(content, pcIndex);
+  let country = utils.safeAccess(content, countryIndex);
+
+  return `${street} ${loc} ${prov} ${poscode} ${country}`.trim();
+};
+
 export const utils = {
   createDateCollection,
   indexFinder,
   normalizeString,
   doRecursion,
+  isDefined,
+  findItemIndex,
+  safeAccess,
+  getItemIndex,
+  addressBuilder,
 };

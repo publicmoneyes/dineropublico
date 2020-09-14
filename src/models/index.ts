@@ -1,6 +1,7 @@
 export * from './awardees.model';
 export * from './boe.model';
 export * from './contract.model';
+export * from './contractingAuthority.model';
 export * from './description.model';
 export * from './details.model';
 export * from './error.model';

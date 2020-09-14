@@ -4,6 +4,7 @@ import { Description } from './description.model';
 import { OffersReceived } from './offersReceived.model';
 import { Awardees } from './awardees.model';
 import { OffersValues } from './offerValues.model';
+import { ContractingAuthority } from './contractingAuthority.model';
 
 export interface Contract {
   metadata: Metadata;
@@ -11,6 +12,7 @@ export interface Contract {
 }
 
 export interface ContractContent {
+  contractAuthority: ContractingAuthority;
   details: Details;
   description: Description;
   offersReceived: OffersReceived[];

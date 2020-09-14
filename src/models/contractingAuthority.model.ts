@@ -1,23 +1,53 @@
-import { DLContent, DD, ContractContentApiModel } from '../services/api-models';
-import { NAME, ADDRESS, NIF, LOCATION, PROVINCE, POSCODE, COUNTRY, PYME, LIST_ENUM, utils } from '../core';
+import { ACTIVITY, TYPE, LIST_ENUM, utils, NAME, NIF, EMAIL, WEB, LOCATION, ADDRESS, COUNTRY, POSCODE, PROVINCE } from '../core';
+import { DLContent } from '../services/api-models';
 
-export interface Awardees {
+export interface ContractingAuthority {
   name: string;
   nif: string;
   address: string;
-  pyme: boolean;
+  telephone: string;
+  email: string;
+  web: string;
+  activityType: string;
+  activity: string;
 }
 
-export const defaultAwardee = (): Awardees => ({
-  address: '',
-  nif: '',
+export const defaultContractingAuthority = (): ContractingAuthority => ({
   name: '',
-  pyme: false,
+  nif: '',
+  address: '',
+  telephone: '',
+  email: '',
+  web: '',
+  activityType: '',
+  activity: '',
 });
 
-export const awardeesFactory = (content: DLContent): Awardees | undefined => {
+export const authorityTypeFactory = (content: DLContent): Partial<ContractingAuthority> => {
   if (!content) {
-    return undefined;
+    return {};
+  }
+
+  const keys = {
+    type: TYPE,
+    activity: ACTIVITY,
+  };
+
+  const normalizedContentList = content.dt.map((item) => item.replace(LIST_ENUM, '').trim());
+  const constantValues = Object.values(keys);
+
+  let typeIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.type)).filter(utils.isDefined);
+  let activityIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.activity)).filter(utils.isDefined);
+
+  return {
+    activity: utils.safeAccess(content.dd, utils.getItemIndex(activityIndex)),
+    activityType: utils.safeAccess(content.dd, utils.getItemIndex(typeIndex)),
+  };
+};
+
+export const contractingAuthorityFactory = (content: DLContent): Partial<ContractingAuthority> => {
+  if (!content) {
+    return {};
   }
 
   const keys = {
@@ -28,13 +58,12 @@ export const awardeesFactory = (content: DLContent): Awardees | undefined => {
     province: PROVINCE,
     poscode: POSCODE,
     country: COUNTRY,
-    pyme: `${PYME}.`,
+    email: EMAIL,
+    web: WEB,
   };
 
   const normalizedContentList = content.dt.map((item) => item.replace(LIST_ENUM, '').trim());
   const constantValues = Object.values(keys);
-  // For detecting pymes its diferent, because its comes in DD as a string.
-  const pymesIndex = content.dd.filter(isString) as string[];
 
   // search for each constantValue in which position is its value inside the normalizedContent list
   let nameIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.name)).filter(utils.isDefined);
@@ -44,7 +73,8 @@ export const awardeesFactory = (content: DLContent): Awardees | undefined => {
   let provinceIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.province)).filter(utils.isDefined);
   let poscodeIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.poscode)).filter(utils.isDefined);
   let countryIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.country)).filter(utils.isDefined);
-  let pymeIndex = pymesIndex.map((item, index) => (item === keys.pyme ? index : -1)).filter(utils.isDefined);
+  let emailIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.email)).filter(utils.isDefined);
+  let webIndex = constantValues.map((item) => utils.findItemIndex(item, normalizedContentList, keys.web)).filter(utils.isDefined);
 
   let address = utils.addressBuilder(content.dd, [
     utils.getItemIndex(addressIndex),
@@ -55,11 +85,10 @@ export const awardeesFactory = (content: DLContent): Awardees | undefined => {
   ]);
 
   return {
-    address,
     name: utils.safeAccess(content.dd, utils.getItemIndex(nameIndex)),
     nif: utils.safeAccess(content.dd, utils.getItemIndex(nifIndex)),
-    pyme: utils.getItemIndex(pymeIndex) !== -1,
+    address,
+    email: utils.safeAccess(content.dd, utils.getItemIndex(emailIndex)),
+    web: utils.safeAccess(content.dd, utils.getItemIndex(webIndex)),
   };
 };
-
-const isString = (str: string | ContractContentApiModel) => typeof str === 'string';
