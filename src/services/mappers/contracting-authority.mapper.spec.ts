@@ -30,7 +30,7 @@ describe('contracting authority specs', () => {
     expect(cAuths).toStrictEqual(expectedContractingAuthority);
   });
 
-  it.only('maps a contract authority', async () => {
+  it('maps a contract authority', async () => {
     // Arrange
     let fileContent = readFileSync(`${basePath}/202013157.xml`).toString('utf8');
     let parsedXml: ContractApiModel = await xmlService.parseXmlToJson(fileContent);

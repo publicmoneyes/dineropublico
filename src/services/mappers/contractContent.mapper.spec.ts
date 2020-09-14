@@ -82,7 +82,7 @@ describe('Contract content specs', () => {
     expect(mappedContractContent).toStrictEqual(expectedContractContent);
   });
 
-  it.only('maps valid input', async () => {
+  it('maps valid input', async () => {
     let fileContent = readFileSync(`${basePath}/202013138.xml`).toString('utf8');
     let parsedXml: ContractApiModel = await xmlService.parseXmlToJson(fileContent);
     const expectedContractContent = {
