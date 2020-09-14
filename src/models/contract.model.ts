@@ -1,10 +1,11 @@
-import { Metadata } from './metadata.model';
-import { Details } from './details.model';
-import { Description } from './description.model';
+import { defaultMetadata, Metadata } from './metadata.model';
+import { defaultDetails, Details } from './details.model';
+import { defaultDescription, Description } from './description.model';
 import { OffersReceived } from './offersReceived.model';
 import { Awardees } from './awardees.model';
 import { OffersValues } from './offerValues.model';
-import { ContractingAuthority } from './contractingAuthority.model';
+import { ContractingAuthority, defaultContractingAuthority } from './contractingAuthority.model';
+import { ContractContentApiModel } from '../services/api-models';
 
 export interface Contract {
   metadata: Metadata;
@@ -20,3 +21,18 @@ export interface ContractContent {
   offerValues: OffersValues[];
   date: Date | undefined;
 }
+
+export const defaultContractContent = (): ContractContent => ({
+  contractAuthority: defaultContractingAuthority(),
+  details: defaultDetails(),
+  description: defaultDescription(),
+  offersReceived: [],
+  awardees: [],
+  offerValues: [],
+  date: undefined,
+});
+
+export const defaultContract = (): Contract => ({
+  metadata: defaultMetadata(),
+  content: defaultContractContent(),
+});

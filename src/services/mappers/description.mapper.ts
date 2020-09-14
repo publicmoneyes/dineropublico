@@ -11,7 +11,7 @@ export const descriptionMapper = (contract: ContractApiModel): Description => {
     documento: { texto },
   } = contract;
 
-  const content = texto.shift()?.dl;
+  const content = texto[0]?.dl;
 
   if (content) {
     let indexList = [...content[0].dt];

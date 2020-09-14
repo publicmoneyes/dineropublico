@@ -11,7 +11,7 @@ export const offersReceivedMapper = (contract: ContractApiModel): OffersReceived
     documento: { texto },
   } = contract;
 
-  const content = texto.shift()?.dl;
+  const content = texto[0]?.dl;
 
   if (content) {
     const indexList = [...content[0].dt];

@@ -1,6 +1,6 @@
 import { Awardees, awardeesFactory } from '../../models';
 import { ContractApiModel, ContractContentApiModel, DLContent } from '../api-models';
-import { utils, AWARDEES, doRecursion } from '../../core';
+import { utils, AWARDEES } from '../../core';
 
 export const awardeesMapper = (contract: ContractApiModel): Awardees[] => {
   if (!contract || !contract.documento || !contract.documento.texto) {
@@ -11,7 +11,7 @@ export const awardeesMapper = (contract: ContractApiModel): Awardees[] => {
     documento: { texto },
   } = contract;
 
-  const content = texto.shift()?.dl;
+  const content = texto[0]?.dl;
 
   if (content) {
     let indexList = [...content[0].dt];
@@ -24,7 +24,7 @@ export const awardeesMapper = (contract: ContractApiModel): Awardees[] => {
     }
 
     let awardees: DLContent = (contentList[contentIndex] as ContractContentApiModel).dl[0];
-    let mapppedAwardees = doRecursion(awardees, awardeesFactory).filter((item) => item !== undefined) as Awardees[];
+    let mapppedAwardees = utils.doRecursion(awardees, awardeesFactory).filter((item) => item !== undefined) as Awardees[];
     return mapppedAwardees;
   }
   return [];
