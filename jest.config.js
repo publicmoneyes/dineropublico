@@ -1,7 +1,4 @@
 module.exports = {
-  //globalSetup: './setup',
-  //globalTeardown: './teardown.js',
-  //testEnvironment: './mongo-environment.js',
   roots: ['<rootDir>/src'],
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
