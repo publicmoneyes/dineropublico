@@ -1,6 +1,9 @@
+import { Contract } from '../../models';
+
 export interface ContractAdapter {
-  findContractsByDate(date: Date): any;
-  findContractsByDateRange(startDate: Date, endDate: Date): any[];
-  saveContract(contract: any): any;
-  saveManyContracta(contracts: any[]): any[];
+  findByDate(date: Date): Contract;
+  findByDateRange(startDate: Date, endDate: Date): Contract[];
+
+  save(contract: Contract): Contract;
+  saveMany(contracts: Contract[]): number;
 }

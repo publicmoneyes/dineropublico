@@ -2,6 +2,7 @@ import { ContractAdapter } from './adapters';
 import { DateService } from './date.service';
 import { BOE_BASE_URL, BOE_API } from '../lib';
 import { Xml2JsonService } from './xml2json.service';
+import { Contract } from '../models';
 
 /**
  * This service is in charge of finding contracts through the BoeApi by a given id and saving them to our mongo database.
@@ -28,16 +29,16 @@ export class ContractService implements ContractAdapter {
     return ContractService.instance;
   }
 
-  findContractsByDate(date: Date) {
+  findByDate(date: Date): Contract {
     throw new Error('Method not implemented.');
   }
-  findContractsByDateRange(startDate: Date, endDate: Date): any[] {
+  findByDateRange(startDate: Date, endDate: Date): Contract[] {
     throw new Error('Method not implemented.');
   }
-  saveContract(contract: any) {
+  save(contract: Contract): Contract {
     throw new Error('Method not implemented.');
   }
-  saveManyContracta(contracts: any[]): any[] {
+  saveMany(contracts: Contract[]): number {
     throw new Error('Method not implemented.');
   }
 }

@@ -7,6 +7,7 @@ import { OffersValues } from './offerValues.model';
 import { ContractingAuthority, defaultContractingAuthority } from './contractingAuthority.model';
 
 export interface Contract {
+  id: string;
   metadata: Metadata;
   content: ContractContent;
 }
@@ -32,6 +33,7 @@ export const defaultContractContent = (): ContractContent => ({
 });
 
 export const defaultContract = (): Contract => ({
+  id: '',
   metadata: defaultMetadata(),
   content: defaultContractContent(),
 });

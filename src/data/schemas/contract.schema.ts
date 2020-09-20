@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
-import { Contract, defaultContract, defaultMetadata } from '../../models';
+import { Contract } from '../../models';
 
-type ContractType = Contract & Document;
+export type ContractType = Contract & Document;
 
 const ContractSchema: Schema<ContractType> = new Schema<ContractType>(
   {
