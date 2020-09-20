@@ -21,6 +21,7 @@ describe('Contract specs', () => {
     let parsedXml: ContractApiModel = await xmlService.parseXmlToJson(fileContent);
 
     const expectedContract: Contract = {
+      id: '',
       content: {
         awardees: [
           {

@@ -33,7 +33,7 @@ describe('Contract Model specs', () => {
     let contractFound = await ContractModel.findById(savedConctract._id);
 
     // Assert
-    expect(contractFound).toStrictEqual(savedConctract);
+    expect(contractFound?.id).toStrictEqual(savedConctract.id);
   });
 
   it('removes a contract', async () => {

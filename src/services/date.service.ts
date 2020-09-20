@@ -18,14 +18,6 @@ export class DateService implements DateAdapter {
     return DateService.instance;
   }
 
-  isLeapYear(date: Date): boolean {
-    throw new Error('Method not implemented.');
-  }
-
-  isBetween(start: Date, end: Date): boolean {
-    throw new Error('Method not implemented.');
-  }
-
   isBefore(first: Date, second: Date): boolean {
     return this.lib(first).isBefore(second);
   }
@@ -69,6 +61,14 @@ export class DateService implements DateAdapter {
 
   isEqual(dateA: Date, dateB: Date): boolean {
     return this.lib(dateA).isSame(dateB);
+  }
+
+  isLeapYear(date: Date): boolean {
+    throw new Error('Method not implemented.');
+  }
+
+  isBetween(start: Date, end: Date): boolean {
+    throw new Error('Method not implemented.');
   }
 
   getDayOfMonth(date: Date): number {
