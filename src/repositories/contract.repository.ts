@@ -1,5 +1,6 @@
+import { MongooseFilterQuery } from 'mongoose';
 import { ContractModel, ContractType } from '../data/schemas/contract.schema';
-import { Contract, defaultContract } from '../models';
+import { Contract } from '../models';
 import { LoggerService } from '../services';
 import { ContractAdapter } from './adapters/contract.adapter';
 import { modelToContractMapper } from './entity2model.mapper';
@@ -23,7 +24,7 @@ export class ContractRepository implements ContractAdapter {
   async save(contract: Contract): Promise<Contract | undefined> {
     try {
       const contractModel: ContractType = new ContractModel({ ...contract });
-      const savedContract: ContractType = await contractModel;
+      const savedContract: ContractType = await contractModel.save();
 
       this.logger.debug(`Saved contract '${savedContract._id}'`);
 
@@ -37,7 +38,7 @@ export class ContractRepository implements ContractAdapter {
   async saveMany(contracts: Contract[]): Promise<number> {
     // An array of _id for each successfully inserted documents
     try {
-      let insertedIds = await ContractModel.insertMany(contracts);
+      let insertedIds: ContractType[] = await ContractModel.insertMany(contracts);
 
       this.logger.debug(`Saved ${insertedIds.length} contracts`);
 
@@ -47,4 +48,23 @@ export class ContractRepository implements ContractAdapter {
       return -1;
     }
   }
+
+  async findByDateRange(dateStart: Date, dateEnd: Date): Promise<Contract[]> {
+    let query: MongooseFilterQuery<Contract> = {
+      'metadata.date': {
+        $gte: dateStart,
+        $lte: dateEnd,
+      },
+    };
+
+    const foundContract: Pick<ContractType, '_id' | 'metadata' | 'content'>[] | null = await ContractModel.find(query);
+
+    return foundContract ? foundContract.map(mappContractTypeToContract) : [];
+  }
 }
+
+const mappContractTypeToContract = (cTypes: Pick<ContractType, '_id' | 'metadata' | 'content'>): Contract => ({
+  id: cTypes._id,
+  content: cTypes.content,
+  metadata: cTypes.metadata,
+});
