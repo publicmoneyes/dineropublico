@@ -1,14 +1,24 @@
 import { ContractRepository } from './contract.repository';
-import { ContractModel, ContractType } from '../data/schemas/contract.schema';
-import { defaultContract, defaultContractContent, defaultMetadata } from '../models';
+import { ContractModel } from '../data/schemas/contract.schema';
+import { defaultContract } from '../models';
+import { ContractType } from '../data/schemas/schema.type';
 
 jest.mock('../data/schemas/contract.schema.ts');
 
 describe('Contract repository specs', () => {
-  const repository = ContractRepository.getInstance();
+  let repository: ContractRepository = ContractRepository.getInstance();
+
+  beforeAll(() => {
+    ContractModel.insertMany = jest.fn().mockImplementation(() => Promise.resolve(['', '']));
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
   it('creates a contract', (done) => {
     const contractModel: ContractType = new ContractModel({ ...defaultContract() });
+
     const spy = jest.spyOn(contractModel, 'save');
     spy.mockResolvedValue({ ...defaultContract(), id: '1' } as ContractType);
 
@@ -18,20 +28,8 @@ describe('Contract repository specs', () => {
     });
   });
 
-  it.only('creates many contracts', (done) => {
-    const contractModel: ContractType = new ContractModel({ ...defaultContract() });
-    const spy = jest.spyOn(ContractModel, 'insertMany');
-
-    spy.mockResolvedValue(contractModel);
-
-    // spy.mockImplementation(() => {
-    //   return Promise.resolve(['irrelevant', 'irrelevant']);
-    // });
-
-    //spy.mockResolvedValue(contractModel);
-
+  it('creates many contracts', (done) => {
     repository.saveMany([defaultContract(), defaultContract()]).then((savedItem) => {
-      console.log('savedItem', savedItem);
       expect(savedItem).toEqual(2);
       done();
     });

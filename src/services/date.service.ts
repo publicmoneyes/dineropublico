@@ -18,6 +18,14 @@ export class DateService implements DateAdapter {
     return DateService.instance;
   }
 
+  setFirstTimeOfTheDay(date: Date): Date {
+    return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  }
+
+  setLastTimeOfTheDay(date: Date): Date {
+    return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate() + 1));
+  }
+
   isBefore(first: Date, second: Date): boolean {
     return this.lib(first).isBefore(second);
   }

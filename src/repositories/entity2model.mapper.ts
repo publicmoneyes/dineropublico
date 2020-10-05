@@ -1,12 +1,8 @@
-import { ContractType } from '../data/schemas/contract.schema';
+import { ContractType } from '../data/schemas/schema.type';
 import { Contract } from '../models';
 
-export const modelToContractMapper = (model: ContractType): Contract => {
-  const { id, content, metadata } = model;
-
-  return {
-    id,
-    content,
-    metadata,
-  };
-};
+export const mappContractTypeToContract = (cTypes: Pick<ContractType, '_id' | 'metadata' | 'content'>): Contract => ({
+  id: cTypes._id,
+  content: cTypes.content,
+  metadata: cTypes.metadata,
+});
