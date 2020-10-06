@@ -1,9 +1,8 @@
-import { Contract } from '../../models';
+import { Observable } from 'rxjs';
+import { Boe, Contract } from '../../models';
 
 export interface ContractAdapter {
-  findByDate(date: Date): Contract;
-  findByDateRange(startDate: Date, endDate: Date): Contract[];
-
-  save(contract: Contract): Contract;
-  saveMany(contracts: Contract[]): number;
+  findByDateRange(startDate: Date, endDate: Date): Promise<Contract[]>;
+  getContractsById(boe: Boe): Observable<Contract[]>;
+  saveMany(contracts: Contract[]): Promise<number>;
 }

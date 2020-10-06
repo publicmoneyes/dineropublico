@@ -16,16 +16,13 @@ describe('Contract repository specs', () => {
     jest.clearAllMocks();
   });
 
-  it('creates a contract', (done) => {
+  it('creates a contract', async () => {
     const contractModel: ContractType = new ContractModel({ ...defaultContract() });
 
-    const spy = jest.spyOn(contractModel, 'save');
-    spy.mockResolvedValue({ ...defaultContract(), id: '1' } as ContractType);
+    jest.spyOn(contractModel, 'save').mockResolvedValue({ ...defaultContract(), id: '1' } as ContractType);
 
-    repository.save(defaultContract()).then((savedItem) => {
-      expect(savedItem?.id).toEqual('1');
-      done();
-    });
+    const savedItem = await repository.save(defaultContract());
+    expect(savedItem?.id).toEqual('1');
   });
 
   it('creates many contracts', (done) => {

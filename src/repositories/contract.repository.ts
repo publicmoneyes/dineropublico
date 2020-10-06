@@ -58,7 +58,7 @@ export class ContractRepository implements ContractAdapter {
       },
     };
 
-    const foundContract: Pick<ContractType, '_id' | 'metadata' | 'content'>[] | null = await ContractModel.find(query);
+    const foundContract: Pick<ContractType, 'id' | 'metadata' | 'content'>[] | null = await ContractModel.find(query);
 
     return foundContract ? foundContract.map(mappContractTypeToContract) : [];
   }
