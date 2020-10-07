@@ -16,6 +16,7 @@ export const adDateMapper = (contract: ContractApiModel): Date | undefined => {
     let contentList = [...content[0].dd];
 
     let contentIndex = utils.indexFinder(indexList, AD_DATE);
+    if (contentIndex === -1) return undefined;
     let date: string | ContractContentApiModel = contentList[contentIndex];
 
     return parseDate(date as string);

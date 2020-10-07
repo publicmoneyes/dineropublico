@@ -1,17 +1,18 @@
+// @ts-ignore
+import { XMLHttpRequest } from 'xhr2';
+import { Boe, Contract } from '../models';
+import { parseStringPromise } from 'xml2js';
 import { ContractAdapter } from './adapters';
 import { DateService } from './date.service';
-import { BOE_BASE_URL, BOE_API } from '../lib';
-import { Xml2JsonService } from './xml2json.service';
-import { Boe, Contract } from '../models';
-import { ContractRepository } from '../repositories/contract.repository';
 import { LoggerService } from './log.service';
 import { ajax, AjaxRequest } from 'rxjs/ajax';
+import { BOE_BASE_URL, BOE_API } from '../lib';
 import { forkJoin, Observable, of } from 'rxjs';
-import { query } from 'express';
-import { pluck, concatMap, map, switchMap } from 'rxjs/operators';
-import { parseStringPromise } from 'xml2js';
-import { contractMapper } from './mappers/contract.mapper';
 import { ContractApiModel } from './api-models';
+import { Xml2JsonService } from './xml2json.service';
+import { contractMapper } from './mappers/contract.mapper';
+import { pluck, concatMap, map, catchError } from 'rxjs/operators';
+import { ContractRepository } from '../repositories/contract.repository';
 
 /**
  * This service is in charge of finding contracts through the BoeApi by a given id and saving them to our mongo database.
@@ -24,7 +25,6 @@ export class ContractService implements ContractAdapter {
   private xml2jsonService: Xml2JsonService;
   private dateService: DateService;
   private logService: LoggerService;
-  private ajaxRequest: AjaxRequest | undefined;
 
   private constructor() {
     this.url = `${BOE_BASE_URL}/${BOE_API}`;
@@ -66,13 +66,20 @@ export class ContractService implements ContractAdapter {
 
     let observableContractCollection: Observable<Contract>[] = contractIdCollection.map((id) => this.getContract(`${this.url}?id=${id}`));
 
-    return observableContractCollection.length ? forkJoin(observableContractCollection) : of([]);
+    return observableContractCollection.length
+      ? forkJoin(observableContractCollection).pipe(
+          catchError((err) => {
+            console.log(err);
+            return of(err);
+          })
+        )
+      : of([]);
   }
 
   public getContract(url: string): Observable<Contract> {
     return ajax(this.createAjaxConfig(url)).pipe(
       pluck('response'),
-      concatMap<string, Promise<ContractApiModel>>((value) => parseStringPromise(value)),
+      concatMap<string, Promise<ContractApiModel>>(this.xml2jsonService.parseXmlToJson),
       map<ContractApiModel, Contract>(contractMapper)
     );
   }

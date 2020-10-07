@@ -18,6 +18,9 @@ export const detailsMapper = (contract: ContractApiModel): Details => {
     let contentList = [...content[0].dd];
 
     let contentIndex = utils.indexFinder(indexList, CPV_CODE);
+
+    if (contentIndex === -1) return defaultDetails();
+
     let details: string | ContractContentApiModel = contentList[contentIndex];
     // at this time the details can be an array of strings or a ContractContentApiModel
     if (typeof details === 'string') {

@@ -3,6 +3,7 @@ import { PORT } from './lib/environment.config';
 import { Server } from 'http';
 import { notFoundController } from './controllers/not-found/not-found.controller';
 import { logger, cors } from './lib';
+import { saveContractController } from './controllers/save-contracts/save-contracts.controller';
 
 const server: Application = express();
 
@@ -14,6 +15,7 @@ server.use('/api/hello', (req: Request, res: Response, next: NextFunction) => {
   res.send('Hello');
 });
 
+server.use('/api/', saveContractController());
 server.use('*', notFoundController());
 
 const serverInstance: Server = server.listen(PORT, () => {
