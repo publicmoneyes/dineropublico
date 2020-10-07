@@ -66,14 +66,7 @@ export class ContractService implements ContractAdapter {
 
     let observableContractCollection: Observable<Contract>[] = contractIdCollection.map((id) => this.getContract(`${this.url}?id=${id}`));
 
-    return observableContractCollection.length
-      ? forkJoin(observableContractCollection).pipe(
-          catchError((err) => {
-            console.log(err);
-            return of(err);
-          })
-        )
-      : of([]);
+    return observableContractCollection.length ? forkJoin(observableContractCollection) : of([]);
   }
 
   public getContract(url: string): Observable<Contract> {

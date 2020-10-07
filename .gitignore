@@ -1,3 +1,7 @@
 node_modules/
 dist/
 logs/
+
+.env.test
+.env.production
+.env.development

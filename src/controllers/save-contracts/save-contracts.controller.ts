@@ -13,10 +13,10 @@ export const saveContractController = (): Router => {
     const contractService: ContractService = ContractService.getInstance();
 
     try {
-      let boe: Boe = await boeService.findBoeByDate(new Date()).toPromise();
-      let contracts = await contractService.getContractsById(boe).toPromise();
-
-      res.status(HttpStatus.OK).json(contracts);
+      const boe: Boe = await boeService.findBoeByDate(new Date()).toPromise();
+      const contracts = await contractService.getContractsById(boe).toPromise();
+      const savedContracts = await contractService.saveMany(contracts);
+      res.status(HttpStatus.OK).json(savedContracts);
     } catch (err) {
       res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
     }
