@@ -29,3 +29,6 @@ export const PRODUCTION = process.env.PRODUCTION;
 export const PORT = process.env.HTTP_PORT;
 export const BOE_API = process.env.BOE_API;
 export const BOE_BASE_URL = process.env.BOE_BASE_URL;
+export const MONGO_USER = process.env.MONGO_USER;
+export const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
+export const MONGO_URL = process.env.MONGO_URL;

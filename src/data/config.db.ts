@@ -1,4 +1,5 @@
 import mongoose, { ConnectionOptions } from 'mongoose';
+import { MONGO_PASSWORD, MONGO_URL, MONGO_USER } from '../lib';
 import { LoggerService } from '../services';
 
 export class DatabaseHandler {
@@ -8,7 +9,7 @@ export class DatabaseHandler {
   private static instance: DatabaseHandler;
 
   private constructor() {
-    this.uri = 'mongodb://127.0.0.1:27017/testingdb';
+    this.uri = `mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_URL}?retryWrites=true&w=majority`;
     this.mongooseOptions = { useNewUrlParser: true, useUnifiedTopology: true };
   }
 
