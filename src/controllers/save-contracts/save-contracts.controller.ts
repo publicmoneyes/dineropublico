@@ -5,22 +5,39 @@ import { ContractService } from '../../services/contract.service';
 
 const saveContractRouter: Router = express.Router();
 
-export const saveContractController = (): Router => {
-  // This endpoint will be hit each day at 01:00 AM in order to save the daily boes
-  saveContractRouter.route('/save-contract').get(async (req: Request, res: Response) => {
-    // TODO: Obtener fecha para pedir el boe.
-    const boeService: BoeService = BoeService.getInstance();
-    const contractService: ContractService = ContractService.getInstance();
+const saveContracts = async (req: Request, res: Response) => {
+  // TODO: Obtener fecha para pedir el boe.
+  const boeService: BoeService = BoeService.getInstance();
+  const contractService: ContractService = ContractService.getInstance();
 
-    try {
-      const boe: Boe = await boeService.findBoeByDate(new Date()).toPromise();
-      const contracts = await contractService.getContractsById(boe).toPromise();
-      const savedContracts = await contractService.saveMany(contracts);
-      res.status(HttpStatus.OK).json(savedContracts);
-    } catch (err) {
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
-    }
-  });
+  try {
+    const boe: Boe = await boeService.findBoeByDate(new Date()).toPromise();
+    const contracts = await contractService.getContractsById(boe).toPromise();
+    const savedContracts = await contractService.saveMany(contracts);
+    res.status(HttpStatus.OK).json(savedContracts);
+  } catch (err) {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
+  }
+};
+
+const getContracts = async (req: Request, res: Response) => {
+  const contractService: ContractService = ContractService.getInstance();
+  const { dateStart, dateEnd } = req.query;
+
+  try {
+    const start = new Date(+(dateStart as string));
+    const end = new Date(+(dateEnd as string));
+    const contracts = await contractService.findByDateRange(start, end);
+    res.status(HttpStatus.OK).json(contracts);
+  } catch (err) {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
+  }
+};
+
+export const contractsController = (): Router => {
+  // This endpoint will be hit each day at 01:00 AM in order to save the daily boes
+  saveContractRouter.route('/save-contract').get(saveContracts);
+  saveContractRouter.route('/contracts').get(getContracts);
 
   return saveContractRouter;
 };
