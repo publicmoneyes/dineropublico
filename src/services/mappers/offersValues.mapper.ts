@@ -82,7 +82,8 @@ const recursiveDDExtractor = (data: DLContent): string[] => {
   const ddItem = data.dd[0];
   // base case: All dd items are strings
   if (typeof ddItem === 'string') {
-    return [...(data.dd as string[])];
+    return [data.dd[0] as string];
+    // return [...(data.dd as string[])];
   }
 
   let add: string[] = [];
