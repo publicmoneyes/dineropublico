@@ -7,18 +7,20 @@ import { DateService } from './date.service';
 import { LoggerService } from './log.service';
 import { ajax, AjaxRequest } from 'rxjs/ajax';
 import { BOE_BASE_URL, BOE_API } from '../lib';
-import { forkJoin, Observable, of } from 'rxjs';
+import { asapScheduler, forkJoin, Observable, of } from 'rxjs';
 import { ContractApiModel } from './api-models';
 import { Xml2JsonService } from './xml2json.service';
 import { contractMapper } from './mappers/contract.mapper';
 import { pluck, concatMap, map, catchError } from 'rxjs/operators';
 import { ContractRepository } from '../repositories/contract.repository';
+import { utils } from '../core';
 
 /**
  * This service is in charge of finding contracts through the BoeApi by a given id and saving them to our mongo database.
  * Also the find methods retrieve information from the mongo database
  */
 export class ContractService implements ContractAdapter {
+  private readonly CONTRACT_SCORE_THRESHOLD = 60;
   private static instance: ContractService;
   private repository: ContractRepository;
   private url: string;
@@ -57,8 +59,21 @@ export class ContractService implements ContractAdapter {
 
   async saveMany(contracts: Contract[]): Promise<number> {
     this.logService.info(`ContractService.SaveMany -> Saving ${contracts.length} items"`);
+    let validContracts: Contract[] = [];
+    let invalidContractsIdentifiers: string[] = [];
 
-    return await this.repository.saveMany(contracts);
+    contracts.forEach((contract: Contract) => {
+      if (utils.objectScoreCalculator(contracts) <= this.CONTRACT_SCORE_THRESHOLD) {
+        invalidContractsIdentifiers.push(contract.metadata.identifier);
+      } else {
+        validContracts.push({ ...contract });
+      }
+    });
+
+    // dont need to wait for this
+    this.repository.saveInvalidContracts(invalidContractsIdentifiers);
+
+    return await this.repository.saveMany(validContracts);
   }
 
   getContractByBoeId(boeid?: string): Observable<Contract> {

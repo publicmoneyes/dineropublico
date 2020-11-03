@@ -5,8 +5,7 @@ import { ContractService } from '../../services/contract.service';
 
 const contractRouter: Router = express.Router();
 
-const saveContracts = async (req: Request, res: Response) => {
-  // TODO: Obtener fecha para pedir el boe.
+const saveContract = async (req: Request, res: Response) => {
   const boeService: BoeService = BoeService.getInstance();
   const contractService: ContractService = ContractService.getInstance();
 
@@ -36,7 +35,7 @@ const getContracts = async (req: Request, res: Response) => {
 
 export const contractsController = (): Router => {
   // This endpoint will be hit each day at 01:00 AM in order to save the daily boes
-  contractRouter.route('/save-contract').get(saveContracts);
+  contractRouter.route('/save-contract').get(saveContract);
   contractRouter.route('/contracts').get(getContracts);
 
   return contractRouter;

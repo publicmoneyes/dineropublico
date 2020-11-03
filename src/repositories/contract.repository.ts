@@ -1,5 +1,6 @@
 import { MongooseFilterQuery } from 'mongoose';
 import { ContractModel } from '../data/schemas/contract.schema';
+import { InvalidContractModel } from '../data/schemas/invalidContracts.schema';
 import { ContractType } from '../data/schemas/schema.type';
 import { Contract } from '../models';
 import { LoggerService } from '../services';
@@ -39,9 +40,7 @@ export class ContractRepository implements ContractAdapter {
   async saveMany(contracts: Contract[]): Promise<number> {
     // An array of _id for each successfully inserted documents
     try {
-      let insertedIds: ContractType[] = await ContractModel.insertMany(
-        contracts
-      );
+      let insertedIds: ContractType[] = await ContractModel.insertMany(contracts);
 
       this.logger.debug(`Saved ${insertedIds.length} contracts`);
 
@@ -60,10 +59,19 @@ export class ContractRepository implements ContractAdapter {
       },
     };
 
-    const foundContract:
-      | Pick<ContractType, 'id' | 'metadata' | 'content'>[]
-      | null = await ContractModel.find(query);
+    const foundContract: Pick<ContractType, 'id' | 'metadata' | 'content'>[] | null = await ContractModel.find(query);
 
     return foundContract ? foundContract.map(mappContractTypeToContract) : [];
+  }
+
+  async saveInvalidContracts(invalidContracts: string[]): Promise<number> {
+    try {
+      const insertedIdentifiers = await await InvalidContractModel.insertMany(invalidContracts);
+      this.logger.debug(`Saved ${insertedIdentifiers.length} contracts`);
+      return insertedIdentifiers.length;
+    } catch (error) {
+      this.logger.error(`Error while saving many invalid contracts :${error}`);
+      return -1;
+    }
   }
 }
