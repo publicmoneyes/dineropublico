@@ -1,15 +1,18 @@
 import { ContractRepository } from './contract.repository';
 import { ContractModel } from '../data/schemas/contract.schema';
-import { defaultContract } from '../models';
+import { defaultContract, InvalidContract } from '../models';
 import { ContractType } from '../data/schemas/schema.type';
+import { InvalidContractModel } from '../data/schemas/invalidContracts.schema';
 
 jest.mock('../data/schemas/contract.schema.ts');
+jest.mock('../data/schemas/invalidContracts.schema.ts');
 
 describe('Contract repository specs', () => {
   let repository: ContractRepository = ContractRepository.getInstance();
 
   beforeAll(() => {
     ContractModel.insertMany = jest.fn().mockImplementation(() => Promise.resolve(['', '']));
+    InvalidContractModel.insertMany = jest.fn().mockImplementation(() => Promise.resolve(['']));
   });
 
   afterEach(() => {
@@ -41,5 +44,15 @@ describe('Contract repository specs', () => {
       expect(r).toHaveLength(1);
       done();
     });
+  });
+
+  it('saves invalid contracts', async () => {
+    const invalidContracts: InvalidContract[] = [
+      {
+        identifier: 'irrelevant url',
+      },
+    ];
+    const savedContracts = await repository.saveInvalidContracts(invalidContracts);
+    expect(savedContracts).toBe(1);
   });
 });

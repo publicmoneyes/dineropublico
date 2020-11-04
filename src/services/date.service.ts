@@ -19,15 +19,11 @@ export class DateService implements DateAdapter {
   }
 
   setFirstTimeOfTheDay(date: Date): Date {
-    return new Date(
-      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0)
-    );
+    return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0));
   }
 
   setLastTimeOfTheDay(date: Date): Date {
-    return new Date(
-      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59)
-    );
+    return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59));
   }
 
   isBefore(first: Date, second: Date): boolean {

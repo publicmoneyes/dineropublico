@@ -1,5 +1,4 @@
 import { of } from 'rxjs';
-import { error } from 'winston';
 import { Boe, Contract, defaultContract, defaultContractContent, defaultMetadata } from '../models';
 import { ContractRepository } from '../repositories/contract.repository';
 import { ContractService } from './contract.service';
@@ -62,9 +61,7 @@ describe('Contract service specs', () => {
     it('should save to the db the given contract collection', (done) => {
       // Arrange
       jest.spyOn(contractRepository, 'saveMany').mockReturnValue(Promise.resolve(1));
-      const boe: Boe = {
-        contractIdCollection: [],
-      };
+      jest.spyOn(contractRepository, 'saveInvalidContracts').mockReturnValue(Promise.resolve(1));
 
       // Act
       contractService.saveMany([defaultContract()]).then((r) => {

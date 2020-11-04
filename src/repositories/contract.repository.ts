@@ -2,7 +2,7 @@ import { MongooseFilterQuery } from 'mongoose';
 import { ContractModel } from '../data/schemas/contract.schema';
 import { InvalidContractModel } from '../data/schemas/invalidContracts.schema';
 import { ContractType } from '../data/schemas/schema.type';
-import { Contract } from '../models';
+import { Contract, InvalidContract } from '../models';
 import { LoggerService } from '../services';
 import { ContractAdapter } from './adapters/contract.adapter';
 import { mappContractTypeToContract } from './entity2model.mapper';
@@ -64,7 +64,7 @@ export class ContractRepository implements ContractAdapter {
     return foundContract ? foundContract.map(mappContractTypeToContract) : [];
   }
 
-  async saveInvalidContracts(invalidContracts: string[]): Promise<number> {
+  async saveInvalidContracts(invalidContracts: InvalidContract[]): Promise<number> {
     try {
       const insertedIdentifiers = await await InvalidContractModel.insertMany(invalidContracts);
       this.logger.debug(`Saved ${insertedIdentifiers.length} contracts`);

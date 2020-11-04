@@ -1,6 +1,6 @@
 // @ts-ignore
 import { XMLHttpRequest } from 'xhr2';
-import { Boe, Contract, defaultContract } from '../models';
+import { Boe, Contract, defaultContract, InvalidContract } from '../models';
 import { parseStringPromise } from 'xml2js';
 import { ContractAdapter } from './adapters';
 import { DateService } from './date.service';
@@ -20,7 +20,7 @@ import { utils } from '../core';
  * Also the find methods retrieve information from the mongo database
  */
 export class ContractService implements ContractAdapter {
-  private readonly CONTRACT_SCORE_THRESHOLD = 60;
+  private readonly MIN_PERCENTAGE_THRESHOLD = 40;
   private static instance: ContractService;
   private repository: ContractRepository;
   private url: string;
@@ -60,11 +60,11 @@ export class ContractService implements ContractAdapter {
   async saveMany(contracts: Contract[]): Promise<number> {
     this.logService.info(`ContractService.SaveMany -> Saving ${contracts.length} items"`);
     let validContracts: Contract[] = [];
-    let invalidContractsIdentifiers: string[] = [];
-
+    let invalidContractsIdentifiers: InvalidContract[] = [];
     contracts.forEach((contract: Contract) => {
-      if (utils.objectScoreCalculator(contracts) <= this.CONTRACT_SCORE_THRESHOLD) {
-        invalidContractsIdentifiers.push(contract.metadata.identifier);
+      if (utils.objectInformationPercentage(contract) <= this.MIN_PERCENTAGE_THRESHOLD) {
+        const { identifier } = contract.metadata;
+        invalidContractsIdentifiers.push({ identifier });
       } else {
         validContracts.push({ ...contract });
       }

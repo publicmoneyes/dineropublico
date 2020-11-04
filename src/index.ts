@@ -7,6 +7,7 @@ import { contractsController } from './controllers/contracts/contracts.controlle
 import { DatabaseHandler } from './data/config.db';
 import { testingController } from './controllers';
 import { ENVIRONMENTS } from './core';
+import { bulkController } from './controllers/bulk/bulk.controller';
 
 const server: Application = express();
 const db = DatabaseHandler.getInstance();
@@ -17,6 +18,7 @@ server.use(logger);
 server.use('/api/', contractsController());
 
 if (process.env.NODE_ENV !== ENVIRONMENTS.PROD) {
+  server.use('/api/', bulkController());
   server.use('/api/', testingController());
 }
 

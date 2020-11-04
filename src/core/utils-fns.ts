@@ -97,15 +97,16 @@ const copyObject = (object: any): any => {
   return undefined;
 };
 
-const objectScoreCalculator = (contract: any): number => {
+const objectInformationPercentage = (contract: any): number => {
   if (isUndefined(contract)) {
     return 0;
   }
 
   let totalProps: number = countNumberOfProps(contract);
   let undefinedProps: number = countNumberOfUndefinedProps(contract);
+  let definedProps = totalProps - undefinedProps;
 
-  return undefinedProps === 0 ? 100 : Math.round((undefinedProps * 100) / totalProps);
+  return undefinedProps === 0 ? 100 : Math.round((definedProps * 100) / totalProps);
 };
 
 export const isObject = (o: any) => {
@@ -156,6 +157,18 @@ const isUndefined = (object: any): boolean => {
   return false;
 };
 
+const splitIn = <T>(itemsPerGroup: number, collection: T[]): T[][] => {
+  let copy = [...collection];
+  let finalArray = [];
+
+  var i, j;
+  for (i = 0, j = copy.length; i < j; i += itemsPerGroup) {
+    finalArray.push(copy.slice(i, i + itemsPerGroup));
+  }
+
+  return finalArray;
+};
+
 export const utils = {
   createDateCollection,
   indexFinder,
@@ -169,5 +182,6 @@ export const utils = {
   copyObject,
   countNumberOfProps,
   countNumberOfUndefinedProps,
-  objectScoreCalculator,
+  objectInformationPercentage,
+  splitIn,
 };

@@ -9,3 +9,4 @@ export * from './httpStatus.model';
 export * from './metadata.model';
 export * from './offersReceived.model';
 export * from './offerValues.model';
+export * from './invalidContracts.model';

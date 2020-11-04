@@ -17,6 +17,12 @@ export const boeMapper = (input: BoeApiModel): Boe => {
     return section.concat(diario.seccion.filter((s) => s.$.num === sectionTarget));
   }, []);
 
+  if (filteredDiarios.length === 0) {
+    return {
+      contractIdCollection: [],
+    };
+  }
+
   // Extract departments
   const departamentsCollection: Departamento[] = filteredDiarios[0].departamento;
   const deparmentItemsCollection: DepartamentoItem[] = departamentsCollection.reduce(

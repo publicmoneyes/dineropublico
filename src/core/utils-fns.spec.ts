@@ -159,9 +159,9 @@ describe('Utils specs', () => {
       g: 1,
     };
 
-    expect(utils.objectScoreCalculator(emptyObject)).toEqual(0);
-    expect(utils.objectScoreCalculator(simpleObject)).toEqual(50);
-    expect(utils.objectScoreCalculator(completeObject)).toEqual(100);
-    expect(utils.objectScoreCalculator(nestedObject)).toEqual(30);
+    expect(utils.objectInformationPercentage(emptyObject)).toEqual(0);
+    expect(utils.objectInformationPercentage(simpleObject)).toEqual(50);
+    expect(utils.objectInformationPercentage(completeObject)).toEqual(100);
+    expect(utils.objectInformationPercentage(nestedObject)).toEqual(30);
   });
 });
