@@ -1,15 +1,17 @@
+// @ts-ignore
+import { XMLHttpRequest } from 'xhr2';
 import { BoeAdapter } from './adapters';
 import { BoeApiModel } from './api-models';
+import { FIRST_DATE, utils } from '../core';
 import { DateService } from './date.service';
+import { LoggerService } from './log.service';
 import { BOE_BASE_URL, BOE_API } from '../lib';
 import { boeMapper } from './mappers/boe.mapper';
 import { Xml2JsonService } from './xml2json.service';
-import { pluck, map, concatMap } from 'rxjs/operators';
-import { Observable, throwError, forkJoin } from 'rxjs';
-import { FIRST_DATE, utils } from '../core';
+import { Observable, throwError, forkJoin, of } from 'rxjs';
 import { ajax, AjaxRequest, AjaxResponse } from 'rxjs/ajax';
 import { createError, HttpStatus, Boe, defaultBoe } from '../models';
-import { LoggerService } from './log.service';
+import { pluck, map, concatMap, tap, catchError } from 'rxjs/operators';
 
 /**
  * This service is in charge of finding BOE through the BoeApi

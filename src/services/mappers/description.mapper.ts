@@ -18,6 +18,9 @@ export const descriptionMapper = (contract: ContractApiModel): Description => {
     let contentList = [...content[0].dd];
 
     let contentIndex = utils.indexFinder(indexList, DESCRIPTION);
+
+    if (contentIndex === -1) return defaultDescription();
+
     let description: string | ContractContentApiModel = contentList[contentIndex];
     // at this time the description can be an array of strings or a ContractContentApiModel
     if (typeof description === 'string') {

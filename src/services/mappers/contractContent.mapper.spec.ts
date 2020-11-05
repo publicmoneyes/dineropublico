@@ -62,14 +62,6 @@ describe('Contract content specs', () => {
           text: 'Lote 1',
           value: 36362.73,
         },
-        {
-          text: 'Lote 1',
-          value: 34908.22,
-        },
-        {
-          text: 'Lote 1',
-          value: 34908.22,
-        },
       ],
       offersReceived: [
         {

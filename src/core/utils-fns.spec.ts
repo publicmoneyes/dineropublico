@@ -1,3 +1,4 @@
+import { defaultContract } from '../models';
 import { DD } from '../services/api-models';
 import { utils } from './utils-fns';
 
@@ -66,5 +67,101 @@ describe('Utils specs', () => {
 
   it('getItemIndex. returns -1 if its empty', () => {
     expect(utils.getItemIndex([])).toBe(-1);
+  });
+
+  it('countNumberOfProps. return the number of props of the given object', () => {
+    let emptyObject: any = {};
+    let simpleObject: any = {
+      a: 1,
+      b: 'irrelevant str',
+      c: [],
+    };
+    let simpleObject2: any = {
+      a: 1,
+      b: {},
+      c: [],
+      d: undefined,
+      4: null,
+    };
+    let nestedObject: any = {
+      a: 1,
+      b: 'irrelevant str',
+      c: [],
+      d: {
+        da: 1,
+        db: 'irrelevant str',
+        dc: {
+          dca: 1,
+          dcb: 'irrelevant str',
+        },
+      },
+    };
+
+    expect(utils.countNumberOfProps(emptyObject)).toEqual(0);
+    expect(utils.countNumberOfProps(simpleObject)).toEqual(3);
+    expect(utils.countNumberOfProps(simpleObject2)).toEqual(5);
+    expect(utils.countNumberOfProps(nestedObject)).toEqual(7);
+  });
+
+  it('countNumberOfUndefinedProps. return the number of undefined props of the given object', () => {
+    let emptyObject: any = {};
+    let simpleObject: any = {
+      a: 0,
+      b: undefined,
+      c: [], // counts means undefined
+      d: {}, // counts means undefined
+    };
+    let nestedObject: any = {
+      a: 1,
+      b: 'irrelevant str',
+      c: [],
+      d: {
+        da: 1,
+        db: {},
+        dc: {
+          dca: undefined,
+          dcb: null,
+        },
+      },
+    };
+
+    expect(utils.countNumberOfUndefinedProps(emptyObject)).toEqual(0);
+    expect(utils.countNumberOfUndefinedProps(simpleObject)).toEqual(3);
+    expect(utils.countNumberOfUndefinedProps(nestedObject)).toEqual(4);
+  });
+
+  it('contractScoreCalculator. Returns the score of a contract', () => {
+    let emptyObject = {};
+    let simpleObject = {
+      a: undefined,
+      b: 0,
+      c: [],
+      d: 1,
+    };
+    let completeObject = {
+      b: 0,
+      d: 1,
+    };
+    let nestedObject = {
+      a: 1,
+      b: 'irrelevant str',
+      c: [],
+      d: {
+        da: 1,
+        db: 99,
+        dc: {
+          dca: undefined,
+          dcb: null,
+        },
+      },
+      e: 1,
+      f: 'a',
+      g: 1,
+    };
+
+    expect(utils.objectInformationPercentage(emptyObject)).toEqual(0);
+    expect(utils.objectInformationPercentage(simpleObject)).toEqual(50);
+    expect(utils.objectInformationPercentage(completeObject)).toEqual(100);
+    expect(utils.objectInformationPercentage(nestedObject)).toEqual(30);
   });
 });

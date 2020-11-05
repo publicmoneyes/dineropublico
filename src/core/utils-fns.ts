@@ -1,3 +1,5 @@
+import { preProcessFile } from 'typescript';
+import { Contract } from '../models';
 import { DateService } from '../services';
 import { DT, DLContent, ContractContentApiModel, DD } from '../services/api-models';
 
@@ -95,6 +97,78 @@ const copyObject = (object: any): any => {
   return undefined;
 };
 
+const objectInformationPercentage = (contract: any): number => {
+  if (isUndefined(contract)) {
+    return 0;
+  }
+
+  let totalProps: number = countNumberOfProps(contract);
+  let undefinedProps: number = countNumberOfUndefinedProps(contract);
+  let definedProps = totalProps - undefinedProps;
+
+  return undefinedProps === 0 ? 100 : Math.round((definedProps * 100) / totalProps);
+};
+
+export const isObject = (o: any) => {
+  return typeof o === 'object';
+};
+
+const isNullOrEmpty = (o: any) => {
+  return o === null || Object.keys(o).length === 0;
+};
+
+const countNumberOfProps = (object: any): number => {
+  let numberOfProps: number = 0;
+
+  for (let key in object) {
+    let prop = object[key];
+
+    if (isObject(prop) && !isNullOrEmpty(prop)) {
+      numberOfProps += Array.isArray(prop) ? 1 : countNumberOfProps(prop);
+    } else {
+      numberOfProps++;
+    }
+  }
+
+  return numberOfProps;
+};
+
+const countNumberOfUndefinedProps = (object: any): number => {
+  let numberOfProps: number = 0;
+
+  for (let key in object) {
+    let prop = object[key];
+
+    if (isObject(prop) && !Array.isArray(prop)) {
+      numberOfProps += isUndefined(prop) ? 1 : countNumberOfUndefinedProps(prop);
+    } else {
+      numberOfProps += isUndefined(prop) ? 1 : 0;
+    }
+  }
+
+  return numberOfProps;
+};
+
+const isUndefined = (object: any): boolean => {
+  if (object === undefined || object === null) return true;
+  if (Array.isArray(object) && object.length == 0) return true;
+  if (isObject(object) && Object.keys(object).length == 0) return true;
+
+  return false;
+};
+
+const splitIn = <T>(itemsPerGroup: number, collection: T[]): T[][] => {
+  let copy = [...collection];
+  let finalArray = [];
+
+  var i, j;
+  for (i = 0, j = copy.length; i < j; i += itemsPerGroup) {
+    finalArray.push(copy.slice(i, i + itemsPerGroup));
+  }
+
+  return finalArray;
+};
+
 export const utils = {
   createDateCollection,
   indexFinder,
@@ -106,4 +180,8 @@ export const utils = {
   getItemIndex,
   addressBuilder,
   copyObject,
+  countNumberOfProps,
+  countNumberOfUndefinedProps,
+  objectInformationPercentage,
+  splitIn,
 };
