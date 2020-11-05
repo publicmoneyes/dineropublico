@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "npm run clean && npm run copy-env && tsc",
     "clean": "rimraf dist/*",
-    "copy-env": "",
+    "copy-env": "node copy.js",
+    "start": "NODE_ENV=production node dist/index.js",
+    "dev": "NODE_ENV=development node dist/index.js",
     "watch:test": "set NODE_ENV=test&&nodemon server/server.ts",
     "watch:dev": "set NODE_ENV=development&&nodemon server/server.ts",
     "watch:prod": "set NODE_ENV=production&& nodemon server/server.ts",
