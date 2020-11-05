@@ -3,17 +3,15 @@ import * as dotenv from 'dotenv';
 const configEnvironment = (): string => {
   let configPath: string = '';
 
-  console.log('configEnvironment -> process.env.NODE_ENV)', process.env.NODE_ENV);
-
   switch (process.env.NODE_ENV) {
     case 'production':
-      configPath = `${__dirname}/../../.env`;
+      configPath = `${__dirname}/../../.env.production`;
     case 'development':
       configPath = `${__dirname}/../../.env.development`;
     case 'test':
       configPath = `${__dirname}/../../.env.test`;
     default:
-      configPath = `${__dirname}/../../.env.development`;
+      configPath = `${__dirname}/../../.env`;
   }
 
   return configPath;
