@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:test": "set NODE_ENV=test&&nodemon server/server.ts",
-    "start:dev": "set NODE_ENV=development&&nodemon server/server.ts",
-    "start:prod": "set NODE_ENV=production&& nodemon server/server.ts",
+    "build": "tsc",
+    "clean": "rimraf dist/*",
+    "copy-env": "",
+    "watch:test": "set NODE_ENV=test&&nodemon server/server.ts",
+    "watch:dev": "set NODE_ENV=development&&nodemon server/server.ts",
+    "watch:prod": "set NODE_ENV=production&& nodemon server/server.ts",
     "test": "jest --runInBand"
   },
   "keywords": [],
