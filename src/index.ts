@@ -13,7 +13,7 @@ const server: Application = express();
 const db = DatabaseHandler.getInstance();
 
 server.use(cors);
-server.use(logger);
+// server.use(logger);
 
 server.use('/api/', contractsController());
 

@@ -3,7 +3,7 @@ import winston, { createLogger, Logger, format, transports } from 'winston';
 import { ENVIRONMENTS } from '../core';
 
 export class LoggerService implements LoggerAdapter {
-  private loggerConfig: Logger;
+  //private loggerConfig: Logger;
   private static instance: LoggerService;
   private environment: string;
 
@@ -16,31 +16,31 @@ export class LoggerService implements LoggerAdapter {
   };
 
   private constructor() {
-    this.loggerConfig = this.configLogger();
+    //this.loggerConfig = this.configLogger();
     this.environment = process.env.NODE_ENV ? process.env.NODE_ENV : ENVIRONMENTS.DEV;
   }
 
   info(message: string): void {
     if (this.environment !== ENVIRONMENTS.TEST) {
-      this.loggerConfig.info(`${this.environment} --> ${message}`);
+      // this.loggerConfig.info(`${this.environment} --> ${message}`);
     }
   }
 
   debug(message: string): void {
     if (this.environment !== ENVIRONMENTS.TEST) {
-      this.loggerConfig.debug(`${this.environment} --> ${message}`);
+      // this.loggerConfig.debug(`${this.environment} --> ${message}`);
     }
   }
 
   warn(message: string): void {
     if (this.environment !== ENVIRONMENTS.TEST) {
-      this.loggerConfig.warn(`${this.environment} --> ${message}`);
+      // this.loggerConfig.warn(`${this.environment} --> ${message}`);
     }
   }
 
   error(message: string): void {
     if (this.environment !== ENVIRONMENTS.TEST) {
-      this.loggerConfig.error(`${this.environment} --> ${message}`);
+      // this.loggerConfig.error(`${this.environment} --> ${message}`);
     }
   }
 
