@@ -1,0 +1,23 @@
+steps:
+  # Install
+  - name: node:12.16.1
+    entrypoint: npm
+    args: ["install"]
+  # Build
+  - name: node:12.16.1
+    entrypoint: npm
+    args: ["run","build"]
+  # CreateEnv
+  - name: node:12.16.1
+    entrypoint: npm
+    args: ["run", "create-env"]
+    env:
+      - 'HTTP_PORT=${_HTTP_PORT}'
+      - 'PRODUCTION=${_PRODUCTION}'
+      - 'BOE_BASE_URL=${_BOE_BASE_URL}'
+      - 'BOE_API=${_BOE_API}'
+      - 'MONGO_PASSWORD=${_MONGO_PASSWORD}'
+      - 'MONGO_USER=${_MONGO_USER}'
+      - 'MONGO_URL=${_MONGO_URL}'
+  - name: "gcr.io/cloud-builders/gcloud"
+    args: ["app", "deploy"]
