@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npm run clean && npm run copy-env && tsc",
+    "build": "npm run clean && tsc",
     "clean": "rimraf dist/*",
-    "copy-env": "node copy.js",
     "create-env": "printenv > .env",
     "start": "NODE_ENV=production node dist/index.js",
     "dev": "NODE_ENV=development node dist/index.js",
