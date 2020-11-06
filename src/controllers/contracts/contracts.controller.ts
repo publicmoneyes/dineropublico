@@ -16,14 +16,15 @@ const saveContract = async (req: Request, res: Response) => {
     let startDate = dateService.setFirstTimeOfTheDay(new Date());
 
     const todaysContracts = await contractService.findByDateRange(startDate, endDate);
+
     if (todaysContracts.length > 0) {
       res.status(HttpStatus.OK).send('Already called today');
+    } else {
+      const boe: Boe = await boeService.findBoeByDate(new Date()).toPromise();
+      const contracts = await contractService.getContractsById(boe).toPromise();
+      const savedContracts = await contractService.saveMany(contracts);
+      res.status(HttpStatus.OK).json(savedContracts);
     }
-
-    const boe: Boe = await boeService.findBoeByDate(new Date()).toPromise();
-    const contracts = await contractService.getContractsById(boe).toPromise();
-    const savedContracts = await contractService.saveMany(contracts);
-    res.status(HttpStatus.OK).json(savedContracts);
   } catch (err) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
   }
