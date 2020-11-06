@@ -1,7 +1,6 @@
 import { LoggerAdapter } from './adapters/log.adapter';
 import winston, { createLogger, Logger, format, transports } from 'winston';
 import { LoggingWinston } from '@google-cloud/logging-winston';
-import { ENVIRONMENTS } from '../lib';
 
 export class LoggerService implements LoggerAdapter {
   private loggerConfig: Logger;
@@ -19,31 +18,24 @@ export class LoggerService implements LoggerAdapter {
 
   private constructor() {
     this.loggerConfig = this.configLogger();
-    this.environment = process.env.NODE_ENV ? process.env.NODE_ENV : ENVIRONMENTS.DEV;
+    this.environment = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
+    this.loggerConfig.info(JSON.stringify(process.env));
   }
 
   info(message: string): void {
-    if (this.environment !== ENVIRONMENTS.TEST) {
-      this.loggerConfig.info(`${this.environment} --> ${message}`);
-    }
+    this.loggerConfig.info(`${this.environment} --> ${message}`);
   }
 
   debug(message: string): void {
-    if (this.environment !== ENVIRONMENTS.TEST) {
-      this.loggerConfig.debug(`${this.environment} --> ${message}`);
-    }
+    this.loggerConfig.debug(`${this.environment} --> ${message}`);
   }
 
   warn(message: string): void {
-    if (this.environment !== ENVIRONMENTS.TEST) {
-      this.loggerConfig.warn(`${this.environment} --> ${message}`);
-    }
+    this.loggerConfig.warn(`${this.environment} --> ${message}`);
   }
 
   error(message: string): void {
-    if (this.environment !== ENVIRONMENTS.TEST) {
-      this.loggerConfig.error(`${this.environment} --> ${message}`);
-    }
+    this.loggerConfig.error(`${this.environment} --> ${message}`);
   }
 
   private configLogger = () => {

@@ -1,7 +1,7 @@
 import express, { Application } from 'express';
 import { PORT } from './lib/environment.config';
 import { Server } from 'http';
-import { logger, cors, ENVIRONMENTS } from './lib';
+import { logger, cors } from './lib';
 import { testingController } from './controllers';
 import { DatabaseHandler } from './data/config.db';
 import { bulkController } from './controllers/bulk/bulk.controller';
@@ -16,7 +16,7 @@ server.use(logger);
 
 server.use('/api/', contractsController());
 
-if (process.env.NODE_ENV !== ENVIRONMENTS.PROD) {
+if (process.env.NODE_ENV !== 'production') {
   server.use('/api/', bulkController());
   server.use('/api/', testingController());
 }
