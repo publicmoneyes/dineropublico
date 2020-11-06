@@ -19,5 +19,6 @@ steps:
       - 'MONGO_PASSWORD=${_MONGO_PASSWORD}'
       - 'MONGO_USER=${_MONGO_USER}'
       - 'MONGO_URL=${_MONGO_URL}'
+      - 'NODE_ENV=${_NODE_ENV}'
   - name: "gcr.io/cloud-builders/gcloud"
     args: ["app", "deploy"]
