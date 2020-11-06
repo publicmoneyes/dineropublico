@@ -1,6 +1,6 @@
 import express, { Router, Request, Response } from 'express';
 import { Boe, HttpStatus } from '../../models';
-import { BoeService } from '../../services';
+import { BoeService, DateService } from '../../services';
 import { ContractService } from '../../services/contract.service';
 
 const contractRouter: Router = express.Router();
@@ -8,8 +8,18 @@ const contractRouter: Router = express.Router();
 const saveContract = async (req: Request, res: Response) => {
   const boeService: BoeService = BoeService.getInstance();
   const contractService: ContractService = ContractService.getInstance();
+  const dateService: DateService = DateService.getInstance();
 
   try {
+    // verify if this was already called today
+    let endDate = dateService.setLastTimeOfTheDay(new Date());
+    let startDate = dateService.setFirstTimeOfTheDay(new Date());
+
+    const todaysContracts = await contractService.findByDateRange(startDate, endDate);
+    if (todaysContracts.length > 0) {
+      res.status(HttpStatus.OK).send('Already called today');
+    }
+
     const boe: Boe = await boeService.findBoeByDate(new Date()).toPromise();
     const contracts = await contractService.getContractsById(boe).toPromise();
     const savedContracts = await contractService.saveMany(contracts);

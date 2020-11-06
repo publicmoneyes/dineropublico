@@ -35,6 +35,25 @@ describe('Date service specs', () => {
     expect(dateService.addDays(date, 3)).toEqual(dateAdded);
     expect(dateService.addDays(date, 17)).toEqual(dateAddedNextMonth);
   });
+
+  it('setFirstTimeOfTheDay', () => {
+    let randomTime = new Date(2020, 1, 5, 22, 19, 1);
+    let firstTimeOfTheDay = new Date(2020, 1, 5);
+
+    let result = dateService.setFirstTimeOfTheDay(randomTime).getTime();
+
+    expect(result).toBe(firstTimeOfTheDay.getTime());
+  });
+
+  it('setLastTimeOfTheDay', () => {
+    let randomTime = new Date(2020, 1, 5, 22, 19, 1);
+    let firstTimeOfTheDay = new Date(2020, 1, 5, 23, 59, 59);
+
+    let result = dateService.setLastTimeOfTheDay(randomTime).getTime();
+
+    expect(result).toBe(firstTimeOfTheDay.getTime());
+  });
+
   // getDayOfMonth(date: Date): number;
   // getMonth(date: Date): number;
   // getYear(date: Date): number;

@@ -1,0 +1,4 @@
+cron:
+  - description: "save todays contract"
+    url: /api/save-contract
+    schedule: every 2 minutes from 19:00 to 20:00
