@@ -1,10 +1,7 @@
 import * as dotenv from 'dotenv';
-import { LoggerService } from '../services';
 
 const configEnvironment = (): string => {
   let configPath: string = '';
-
-  LoggerService.getInstance().info(`Running environment .${JSON.stringify(process.env)}.`);
 
   switch (process.env.NODE_ENV) {
     case 'production':

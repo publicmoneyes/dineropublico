@@ -19,7 +19,6 @@ export class LoggerService implements LoggerAdapter {
   private constructor() {
     this.loggerConfig = this.configLogger();
     this.environment = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
-    this.loggerConfig.info(JSON.stringify(process.env));
   }
 
   info(message: string): void {
@@ -54,6 +53,6 @@ export class LoggerService implements LoggerAdapter {
   };
 
   private configTransports = () => {
-    return [new transports.Console({ level: 'debug' }), this.loggingWinston];
+    return [new transports.Console(), this.loggingWinston];
   };
 }
