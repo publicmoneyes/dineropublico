@@ -1,11 +1,13 @@
 import { LoggerAdapter } from './adapters/log.adapter';
 import winston, { createLogger, Logger, format, transports } from 'winston';
-import { ENVIRONMENTS } from '../core';
+import { LoggingWinston } from '@google-cloud/logging-winston';
+import { ENVIRONMENTS } from '../lib';
 
 export class LoggerService implements LoggerAdapter {
-  //private loggerConfig: Logger;
+  private loggerConfig: Logger;
   private static instance: LoggerService;
   private environment: string;
+  private loggingWinston = new LoggingWinston();
 
   static getInstance = (): LoggerService => {
     if (!LoggerService.instance) {
@@ -16,31 +18,31 @@ export class LoggerService implements LoggerAdapter {
   };
 
   private constructor() {
-    //this.loggerConfig = this.configLogger();
+    this.loggerConfig = this.configLogger();
     this.environment = process.env.NODE_ENV ? process.env.NODE_ENV : ENVIRONMENTS.DEV;
   }
 
   info(message: string): void {
     if (this.environment !== ENVIRONMENTS.TEST) {
-      // this.loggerConfig.info(`${this.environment} --> ${message}`);
+      this.loggerConfig.info(`${this.environment} --> ${message}`);
     }
   }
 
   debug(message: string): void {
     if (this.environment !== ENVIRONMENTS.TEST) {
-      // this.loggerConfig.debug(`${this.environment} --> ${message}`);
+      this.loggerConfig.debug(`${this.environment} --> ${message}`);
     }
   }
 
   warn(message: string): void {
     if (this.environment !== ENVIRONMENTS.TEST) {
-      // this.loggerConfig.warn(`${this.environment} --> ${message}`);
+      this.loggerConfig.warn(`${this.environment} --> ${message}`);
     }
   }
 
   error(message: string): void {
     if (this.environment !== ENVIRONMENTS.TEST) {
-      // this.loggerConfig.error(`${this.environment} --> ${message}`);
+      this.loggerConfig.error(`${this.environment} --> ${message}`);
     }
   }
 
@@ -60,15 +62,6 @@ export class LoggerService implements LoggerAdapter {
   };
 
   private configTransports = () => {
-    return [
-      new transports.File({
-        maxsize: 5120000,
-        maxFiles: 5,
-        filename: `${__dirname}/../../logs/log-server.log`,
-      }),
-      new transports.Console({
-        level: 'debug',
-      }),
-    ];
+    return [new transports.Console({ level: 'debug' }), this.loggingWinston];
   };
 }

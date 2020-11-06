@@ -1,7 +1,10 @@
 import * as dotenv from 'dotenv';
+import { LoggerService } from '../services';
 
 const configEnvironment = (): string => {
   let configPath: string = '';
+
+  LoggerService.getInstance().info(`Running environment .${JSON.stringify(process.env)}.`);
 
   switch (process.env.NODE_ENV) {
     case 'production':
@@ -32,3 +35,9 @@ export const BOE_BASE_URL = process.env.BOE_BASE_URL;
 export const MONGO_USER = process.env.MONGO_USER;
 export const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
 export const MONGO_URL = process.env.MONGO_URL;
+
+export const ENVIRONMENTS = {
+  DEV: 'development',
+  PROD: 'production',
+  TEST: 'test',
+};
