@@ -13,7 +13,7 @@ const getMappedContract = async (req: Request, res: Response) => {
     const contracts = await contractService.getContractByBoeId(boeid as string).toPromise();
 
     console.log('utils.objectInformationPercentage(contracts)', utils.objectInformationPercentage(contracts));
-    res.status(HttpStatus.OK).json(contracts);
+    res.status(HttpStatus.OK).json([contracts]);
   } catch (err) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
   }
