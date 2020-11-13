@@ -5,7 +5,7 @@ const configEnvironment = (): string => {
 
   switch (process.env.NODE_ENV) {
     case 'production':
-      configPath = `${__dirname}/../../.env.production`;
+      configPath = `${__dirname}/../../.env`;
       break;
     case 'development':
       configPath = `${__dirname}/../../.env.development`;
