@@ -76,6 +76,10 @@ export class ContractService implements ContractAdapter {
     return await this.repository.saveMany(validContracts);
   }
 
+  findContractByBoeId(boeId: string): Promise<Contract | null> {
+    return this.repository.findByBoeId(boeId);
+  }
+
   getContractByBoeId(boeid?: string): Observable<Contract> {
     if (boeid) {
       return this.getContract(`${this.url}?id=${boeid}`);
@@ -95,9 +99,7 @@ export class ContractService implements ContractAdapter {
   getContractsById(boe: Boe): Observable<Contract[]> {
     const { contractIdCollection } = boe;
 
-    let observableContractCollection: Observable<Contract>[] = contractIdCollection.map((id) =>
-      this.getContract(`${this.url}?id=${id}`)
-    );
+    let observableContractCollection: Observable<Contract>[] = contractIdCollection.map((id) => this.getContract(`${this.url}?id=${id}`));
 
     return observableContractCollection.length ? forkJoin(observableContractCollection) : of([]);
   }
@@ -111,10 +113,7 @@ export class ContractService implements ContractAdapter {
   }
 
   public getRawContract(url: string): Observable<ContractApiModel> {
-    return ajax(this.createAjaxConfig(url)).pipe(
-      pluck('response'),
-      concatMap<string, Promise<ContractApiModel>>(this.xml2jsonService.parseXmlToJson)
-    );
+    return ajax(this.createAjaxConfig(url)).pipe(pluck('response'), concatMap<string, Promise<ContractApiModel>>(this.xml2jsonService.parseXmlToJson));
   }
 
   private createAjaxConfig(url: string): AjaxRequest {

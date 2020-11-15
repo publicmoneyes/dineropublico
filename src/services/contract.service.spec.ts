@@ -32,14 +32,18 @@ describe('Contract service specs', () => {
     it('should retrieve a collection of contracts by a given date range', async () => {
       // Arrange
       jest.spyOn(dateService, 'isBefore').mockReturnValue(false);
-      jest
-        .spyOn(contractRepository, 'findByDateRange')
-        .mockResolvedValue([{ id: '1', content: defaultContractContent(), metadata: defaultMetadata() }]);
+      jest.spyOn(contractRepository, 'findByDateRange').mockResolvedValue([{ id: '1', content: defaultContractContent(), metadata: defaultMetadata() }]);
 
       // Act
       const contracts: Contract[] = await contractService.findByDateRange(new Date(), new Date());
       // Assert
       expect(contracts[0].id).toEqual('1');
+    });
+
+    it('should return a boe by its boeId', async () => {
+      jest.spyOn(contractRepository, 'findByBoeId').mockResolvedValue(defaultContract());
+      const contract: Contract | null = await contractService.findContractByBoeId('irrelevant id');
+      expect(contract).toBeTruthy;
     });
   });
 
