@@ -3,6 +3,7 @@ import { ContractModel } from '../data/schemas/contract.schema';
 import { defaultContract, InvalidContract } from '../models';
 import { ContractType } from '../data/schemas/schema.type';
 import { InvalidContractModel } from '../data/schemas/invalidContracts.schema';
+import { doesNotMatch } from 'assert';
 
 jest.mock('../data/schemas/contract.schema.ts');
 jest.mock('../data/schemas/invalidContracts.schema.ts');
@@ -54,5 +55,16 @@ describe('Contract repository specs', () => {
     ];
     const savedContracts = await repository.saveInvalidContracts(invalidContracts);
     expect(savedContracts).toBe(1);
+  });
+
+  it('finds a contract by boeId', (done) => {
+    const contractModel: ContractType = new ContractModel({ ...defaultContract() });
+
+    jest.spyOn(ContractModel, 'findOne').mockResolvedValue(contractModel);
+
+    repository.findByBoeId('irrelevant id').then((r) => {
+      expect(r).toBeTruthy();
+      done();
+    });
   });
 });

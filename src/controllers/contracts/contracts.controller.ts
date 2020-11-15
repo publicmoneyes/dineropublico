@@ -44,10 +44,24 @@ const getContracts = async (req: Request, res: Response) => {
   }
 };
 
+const getContract = async (req: Request, res: Response) => {
+  const contractService: ContractService = ContractService.getInstance();
+  const { boeid } = req.query;
+
+  try {
+    let id = boeid ? boeid.toString() : '';
+    const contracts = await contractService.findContractByBoeId(id);
+    res.status(HttpStatus.OK).json(contracts);
+  } catch (err) {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
+  }
+};
+
 export const contractsController = (): Router => {
   // This endpoint will be hit each day at 01:00 AM in order to save the daily boes
   contractRouter.route('/save-contract').get(saveContract);
   contractRouter.route('/contracts').get(getContracts);
+  contractRouter.route('/contract').get(getContract);
 
   return contractRouter;
 };

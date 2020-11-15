@@ -66,12 +66,25 @@ export class ContractRepository implements ContractAdapter {
 
   async saveInvalidContracts(invalidContracts: InvalidContract[]): Promise<number> {
     try {
-      const insertedIdentifiers = await await InvalidContractModel.insertMany(invalidContracts);
+      const insertedIdentifiers = await InvalidContractModel.insertMany(invalidContracts);
       this.logger.debug(`Saved ${insertedIdentifiers.length} contracts`);
       return insertedIdentifiers.length;
     } catch (error) {
       this.logger.error(`Error while saving many invalid contracts :${error}`);
       return -1;
+    }
+  }
+
+  async findByBoeId(boeId: string): Promise<Contract | null> {
+    try {
+      let query: MongooseFilterQuery<Contract> = {
+        'metadata.identifier': boeId,
+      };
+      const contract = await ContractModel.findOne(query);
+      return contract ? mappContractTypeToContract(contract) : null;
+    } catch (error) {
+      this.logger.error(`Error while saving many invalid contracts :${error}`);
+      return null;
     }
   }
 }
