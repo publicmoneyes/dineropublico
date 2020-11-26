@@ -21,8 +21,9 @@ if (process.env.NODE_ENV !== 'production') {
   server.use('/api/', testingController());
 } else {
   const allowedListOfOrigins = [SSR_ORIGIN, HOSTING_ORIGIN, OVH_ORIGIN];
-
+  corsOptions.allowedHeaders = 'GET';
   corsOptions.origin = allowedListOfOrigins.map((origin) => origin!);
+  console.log('🚀 ~ file: index.ts ~ line 26 ~ corsOptions.origin', corsOptions.origin);
 }
 
 server.use(cors(corsOptions));
