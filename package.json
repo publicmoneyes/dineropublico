@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npm run clean && tsc",
     "clean": "rimraf dist/*",
-    "create-env": "printenv > .env",
+    "create-env": "printenv > .env.production",
     "start": "node ./dist/index.js",
     "dev": "set NODE_ENV=development&& node dist/index.js",
     "prod": "set NODE_ENV=production&& node dist/index.js",
