@@ -1,5 +1,5 @@
 import { Server } from 'http';
-import cors from 'cors';
+import cors, { CorsOptions } from 'cors';
 import { logger } from './lib';
 import express, { Application } from 'express';
 import { HOSTING_ORIGIN, OVH_ORIGIN, PORT, SSR_ORIGIN } from './lib/environment.config';
@@ -11,21 +11,18 @@ import { contractsController } from './controllers/contracts/contracts.controlle
 
 const server: Application = express();
 const db = DatabaseHandler.getInstance();
-const allowedListOfOrigins = [SSR_ORIGIN, HOSTING_ORIGIN, OVH_ORIGIN];
-const corsOptions = {
-  origin: (origin: any, callback: Function) => {
-    if (!origin || allowedListOfOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error(`"${origin}" Not allowed by CORS`));
-    }
-  },
+const corsOptions: CorsOptions = {
+  optionsSuccessStatus: 200,
 };
 
 if (process.env.NODE_ENV !== 'production') {
-  corsOptions.origin = (origin, cb) => cb(null, true); // Disable cors for dev/localhost
+  corsOptions.origin = '*'; // Disable cors for dev/localhost
   server.use('/api/', bulkController());
   server.use('/api/', testingController());
+} else {
+  const allowedListOfOrigins = [SSR_ORIGIN, HOSTING_ORIGIN, OVH_ORIGIN];
+
+  corsOptions.origin = allowedListOfOrigins.map((origin) => origin!);
 }
 
 server.use(cors(corsOptions));
