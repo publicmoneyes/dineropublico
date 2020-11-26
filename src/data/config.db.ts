@@ -22,7 +22,7 @@ export class DatabaseHandler {
   }
 
   public async connect(): Promise<void> {
-    console.log('🚀 ~ file: config.db.ts ~ line 26 ~ DatabaseHandler ~ connect ~ this.uri', this.uri);
+    // console.log('🚀 ~ file: config.db.ts ~ line 26 ~ DatabaseHandler ~ connect ~ this.uri', this.uri);
     await mongoose.connect(this.uri, this.mongooseOptions).catch(this.errorHandler);
     mongoose.connection.once('open', this.connectionHandler);
   }
