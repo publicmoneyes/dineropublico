@@ -6,7 +6,7 @@ export class LoggerService implements LoggerAdapter {
   private loggerConfig: Logger;
   private static instance: LoggerService;
   private environment: string;
-  //private loggingWinston = new LoggingWinston();
+  private loggingWinston = new LoggingWinston();
 
   static getInstance = (): LoggerService => {
     if (!LoggerService.instance) {
@@ -53,7 +53,7 @@ export class LoggerService implements LoggerAdapter {
   };
 
   private configTransports = () => {
-    return [new transports.Console()];
-    // return [new transports.Console(), this.loggingWinston];
+    // return [new transports.Console()];
+    return [new transports.Console(), this.loggingWinston];
   };
 }
