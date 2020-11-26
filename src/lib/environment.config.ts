@@ -3,9 +3,10 @@ import * as dotenv from 'dotenv';
 const configEnvironment = (): string => {
   let configPath: string = '';
 
+  console.log(`🚀 ~ file: environment.config.ts ~ line 7 ~ configEnvironment ~ process.env.NODE_ENV -${process.env.NODE_ENV}-`);
   switch (process.env.NODE_ENV) {
     case 'production':
-      configPath = `${__dirname}/../../.env`;
+      configPath = `${__dirname}/../../.env.production`;
       break;
     case 'development':
       configPath = `${__dirname}/../../.env.development`;

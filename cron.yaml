@@ -1,4 +1,7 @@
 cron:
   - description: "save todays contract"
     url: /api/save-contract
-    schedule: every day 06:00
+    schedule: every day 07:00
+  - description: "save todays contract retry"
+    url: /api/save-contract
+    schedule: every day 07:15

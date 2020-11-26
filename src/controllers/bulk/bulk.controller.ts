@@ -14,8 +14,8 @@ const saveContractsBetweenDates = async (req: Request, res: Response) => {
   const { boeid } = req.query;
 
   try {
-    let startDate = new Date(Date.UTC(2020, 3, 1, 0, 0, 0));
-    let endDate = new Date(Date.UTC(2020, 4, 0, 22, 59, 59));
+    let startDate = new Date(Date.UTC(2020, 10, 1, 0, 0, 0));
+    let endDate = new Date(Date.UTC(2020, 10, 26, 22, 59, 59));
     console.log('startDate', startDate);
     console.log('endDate', endDate);
 

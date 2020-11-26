@@ -8,8 +8,9 @@
     "clean": "rimraf dist/*",
     "create-env": "printenv > .env",
     "start": "node ./dist/index.js",
-    "dev": "set NODE_ENV=development && node dist/index.js",
-    "watch:test": "set NODE_ENV=test&&nodemon server/server.ts",
+    "dev": "set NODE_ENV=development&& node dist/index.js",
+    "prod": "set NODE_ENV=production&& node dist/index.js",
+    "watch:test": "set NODE_ENV=test&& nodemon server/server.ts",
     "watch:dev": "set NODE_ENV=development&&nodemon server/server.ts",
     "watch:prod": "set NODE_ENV=production&& nodemon server/server.ts",
     "test": "jest --runInBand"
