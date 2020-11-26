@@ -5,7 +5,7 @@ import { LoggerService } from '../services';
 export class DatabaseHandler {
   private uri: string;
   private mongooseOptions: ConnectionOptions;
-  private logger: LoggerService = LoggerService.getInstance();
+  // private logger: LoggerService = LoggerService.getInstance();
   private static instance: DatabaseHandler;
 
   private constructor() {
@@ -29,19 +29,19 @@ export class DatabaseHandler {
   public async disconnect(): Promise<void> {
     try {
       await mongoose.disconnect();
-      this.logger.info(`Connected to DB ${this.uri}`);
+      console.info(`Connected to DB ${this.uri}`);
     } catch (error) {
-      this.logger.error(`Error while disconnecting --> ${error}`);
+      console.error(`Error while disconnecting --> ${error}`);
     }
   }
 
   public async clearDb() {}
 
   private errorHandler(error: any): void {
-    this.logger.error(`MongoDB Error --> ${error}`);
+    console.error(`MongoDB Error --> ${error}`);
   }
 
   private connectionHandler() {
-    this.logger.info(`Connected to DB ${this.uri}`);
+    console.info(`Connected to DB ${this.uri}`);
   }
 }

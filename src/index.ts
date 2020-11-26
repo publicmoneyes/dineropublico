@@ -25,7 +25,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // server.use(cors(corsOptions));
-server.use(logger);
+// server.use(logger);
 server.use('/api/', contractsController());
 server.use('*', notFoundController());
 
