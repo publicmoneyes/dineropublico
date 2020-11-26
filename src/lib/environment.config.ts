@@ -36,3 +36,6 @@ export const BOE_BASE_URL = process.env.BOE_BASE_URL;
 export const MONGO_USER = process.env.MONGO_USER;
 export const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
 export const MONGO_URL = process.env.MONGO_URL;
+export const SSR_ORIGIN = process.env.SSR_ORIGIN;
+export const HOSTING_ORIGIN = process.env.HOSTING_ORIGIN;
+export const OVH_ORIGIN = process.env.OVH_ORIGIN;

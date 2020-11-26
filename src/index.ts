@@ -1,7 +1,8 @@
-import express, { Application } from 'express';
-import { PORT } from './lib/environment.config';
 import { Server } from 'http';
-import { logger, cors } from './lib';
+import cors from 'cors';
+import { logger } from './lib';
+import express, { Application } from 'express';
+import { HOSTING_ORIGIN, OVH_ORIGIN, PORT, SSR_ORIGIN } from './lib/environment.config';
 import { testingController } from './controllers';
 import { DatabaseHandler } from './data/config.db';
 import { bulkController } from './controllers/bulk/bulk.controller';
@@ -10,17 +11,26 @@ import { contractsController } from './controllers/contracts/contracts.controlle
 
 const server: Application = express();
 const db = DatabaseHandler.getInstance();
-
-server.use(cors);
-server.use(logger);
-
-server.use('/api/', contractsController());
+const allowedListOfOrigins = [SSR_ORIGIN, HOSTING_ORIGIN, OVH_ORIGIN];
+const corsOptions = {
+  origin: (origin: any, callback: Function) => {
+    if (!origin || allowedListOfOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error(`"${origin}" Not allowed by CORS`));
+    }
+  },
+};
 
 if (process.env.NODE_ENV !== 'production') {
+  corsOptions.origin = (origin, cb) => cb(null, true); // Disable cors for dev/localhost
   server.use('/api/', bulkController());
   server.use('/api/', testingController());
 }
 
+server.use(cors(corsOptions));
+server.use(logger);
+server.use('/api/', contractsController());
 server.use('*', notFoundController());
 
 const serverInstance: Server = server.listen(PORT, async () => {
