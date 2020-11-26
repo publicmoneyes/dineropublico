@@ -20,5 +20,8 @@ steps:
       - 'MONGO_USER=${_MONGO_USER}'
       - 'MONGO_URL=${_MONGO_URL}'
       - 'NODE_ENV=${_NODE_ENV}'
+      - 'SSR_ORIGIN=${_SSR_ORIGIN}'
+      - 'HOSTING_ORIGIN=${_HOSTING_ORIGIN}'
+      - 'OVH_ORIGIN=${_OVH_ORIGIN}'
   - name: "gcr.io/cloud-builders/gcloud"
     args: ["app", "deploy"]
