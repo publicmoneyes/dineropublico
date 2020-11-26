@@ -24,7 +24,7 @@ if (process.env.NODE_ENV !== 'production') {
   corsOptions.origin = allowedListOfOrigins.map((origin) => origin!);
 }
 
-server.use(cors(corsOptions));
+// server.use(cors(corsOptions));
 server.use(logger);
 server.use('/api/', contractsController());
 server.use('*', notFoundController());
