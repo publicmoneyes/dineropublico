@@ -23,8 +23,9 @@ if (process.env.NODE_ENV !== 'production') {
   const allowedListOfOrigins = [SSR_ORIGIN, HOSTING_ORIGIN, OVH_ORIGIN];
   corsOptions.allowedHeaders = 'GET';
   corsOptions.origin = allowedListOfOrigins.map((origin) => origin!);
-  console.log('🚀 ~ file: index.ts ~ line 26 ~ corsOptions.origin', corsOptions.origin);
 }
+console.log('🚀 ~ file: index.ts ~ line 28 ~ process.env', JSON.stringify(process.env));
+console.log('🚀 ~ file: index.ts ~ line 26 ~ corsOptions.origin', corsOptions.origin);
 
 server.use(cors(corsOptions));
 server.use(logger);
