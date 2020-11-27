@@ -18,7 +18,7 @@ const corsOptions: CorsOptions = {
 if (process.env.NODE_ENV !== 'production') {
   // corsOptions.origin = '*'; // Disable cors for dev/localhost
   // server.use('/api/', bulkController());
-  server.use('/api/', testingController());
+  // server.use('/api/', testingController());
 } else {
   console.info('Production is running');
   const allowedListOfOrigins = [SSR_ORIGIN, HOSTING_ORIGIN, OVH_ORIGIN];
