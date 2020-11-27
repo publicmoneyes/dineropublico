@@ -1,6 +1,5 @@
 import mongoose, { ConnectionOptions } from 'mongoose';
 import { MONGO_PASSWORD, MONGO_URL, MONGO_USER } from '../lib';
-import { LoggerService } from '../services';
 
 export class DatabaseHandler {
   private uri: string;
@@ -22,8 +21,11 @@ export class DatabaseHandler {
   }
 
   public async connect(): Promise<void> {
-    // console.log('🚀 ~ file: config.db.ts ~ line 26 ~ DatabaseHandler ~ connect ~ this.uri', this.uri);
-    await mongoose.connect(this.uri, this.mongooseOptions).catch(this.errorHandler);
+    console.log('🚀 ~ file: config.db.ts ~ line 26 ~ DatabaseHandler ~ connect ~ this.uri', this.uri);
+    await mongoose
+      .connect(this.uri, this.mongooseOptions)
+      .then((r) => console.log('Connection sucessful'))
+      .catch(this.errorHandler);
     mongoose.connection.once('open', this.connectionHandler);
   }
 

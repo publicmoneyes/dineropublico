@@ -16,22 +16,27 @@ const corsOptions: CorsOptions = {
 };
 
 if (process.env.NODE_ENV !== 'production') {
-  corsOptions.origin = '*'; // Disable cors for dev/localhost
-  server.use('/api/', bulkController());
+  // corsOptions.origin = '*'; // Disable cors for dev/localhost
+  // server.use('/api/', bulkController());
   server.use('/api/', testingController());
 } else {
+  console.info('Production is running');
   const allowedListOfOrigins = [SSR_ORIGIN, HOSTING_ORIGIN, OVH_ORIGIN];
   corsOptions.origin = allowedListOfOrigins.map((origin) => origin!);
 }
 
 // server.use(cors(corsOptions));
 // server.use(logger);
+server.use('/', (req, res) => {
+  res.send('Ok baby');
+});
+server.use('/api/', testingController());
 server.use('/api/', contractsController());
 server.use('*', notFoundController());
 
 const serverInstance: Server = server.listen(PORT, async () => {
-  console.log(`Server is running at port ${PORT}`);
-  console.log(`Running environment: ${process.env.NODE_ENV}`);
+  console.info(`Server is running at port ${PORT}`);
+  console.info(`Running environment: ${process.env.NODE_ENV}`);
   await db.connect();
 });
 
