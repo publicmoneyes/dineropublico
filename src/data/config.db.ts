@@ -4,7 +4,6 @@ import { MONGO_PASSWORD, MONGO_URL, MONGO_USER } from '../lib';
 export class DatabaseHandler {
   private uri: string;
   private mongooseOptions: ConnectionOptions;
-  // private logger: LoggerService = LoggerService.getInstance();
   private static instance: DatabaseHandler;
 
   private constructor() {
@@ -21,12 +20,7 @@ export class DatabaseHandler {
   }
 
   public async connect(): Promise<void> {
-    console.log('🚀 ~ file: config.db.ts ~ line 26 ~ DatabaseHandler ~ connect ~ this.uri', this.uri);
-    await mongoose
-      .connect(this.uri, this.mongooseOptions)
-      .then((r) => console.log('Connection sucessful'))
-      .catch(this.errorHandler);
-    mongoose.connection.once('open', this.connectionHandler);
+    await mongoose.connect(this.uri, this.mongooseOptions).then(this.connectionHandler).catch(this.errorHandler);
   }
 
   public async disconnect(): Promise<void> {
@@ -45,6 +39,6 @@ export class DatabaseHandler {
   }
 
   private connectionHandler() {
-    console.info(`Connected to DB ${this.uri}`);
+    console.info(`Connected to DB`);
   }
 }
